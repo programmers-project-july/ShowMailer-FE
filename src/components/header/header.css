@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: row;
+
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
