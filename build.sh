@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./demo-FE/* ./output
-cp -R ./output ./demo-FE/
+cp -R ./dev-alarm-FE/* ./output
+cp -R ./output ./dev-alarm-FE/
