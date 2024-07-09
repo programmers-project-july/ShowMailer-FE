@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import './home.css';
-import Header from "@/components/header/header";
-
+import '@/pages/home/home.css';
+import Header from '@/components/header/header';
 
 const home = () => {
   return (
