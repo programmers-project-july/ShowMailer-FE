@@ -6,7 +6,7 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), vanillaExtractPlugin()],
-  base:'/dev-alarm/', // 이 부분을 수정
+  // base:'/dev-alarm/', // 이 부분을 수정
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
