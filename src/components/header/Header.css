@@ -23,3 +23,10 @@
 .logoTitle {
   font-size: 16px;
 }
+
+.logoTitle,
+.loginIcon,
+.logoutIcon,
+.mypageIcon {
+  cursor: pointer;
+}

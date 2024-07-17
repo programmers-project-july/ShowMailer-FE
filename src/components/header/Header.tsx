@@ -36,9 +36,6 @@ const Header = () => {
         setUser(user);
         console.log(user);
         saveTokenToCookie();
-        // console.log(userCredential);
-        //서버에 user 데이터 전달, cookie에 저장
-        //함수로 email, id, 이미지 전달
       })
       .catch((err) => {
         console.log(err);
@@ -62,8 +59,8 @@ const Header = () => {
       const user = auth.currentUser;
       if (user) {
         const idToken = await getIdToken(user);
-        // 쿠키에 토큰 저장 (1시간 유효)
-        Cookies.set('accessToken', idToken, { expires: 1 / 24 }); // expires: 1시간
+        // expires: 1시간
+        Cookies.set('accessToken', idToken, { expires: 1 / 24 });
         console.log('액세스 토큰 저장 완료');
       }
     } catch (error) {
@@ -74,7 +71,7 @@ const Header = () => {
   const gotoMypage = () => {
     if (user && user.displayName) {
       const displayName = encodeURIComponent(user.displayName);
-      window.location.href = `/mypage?name=${displayName}`; // displayName을 쿼리스트링으로 넘김
+      window.location.href = `/mypage?name=${displayName}`;
     }
   };
 
@@ -85,13 +82,15 @@ const Header = () => {
   return (
     <div className="Hcontainer">
       <BsEnvelopeHeart className="logo" />
-      <p className="logoTitle">서울 문화공연 알리미</p>
+      <p className="logoTitle" onClick={() => (window.location.href = '/')}>
+        서울 문화공연 알리미
+      </p>
       {isMypage ? (
-        <FiLogOut className="logout" onClick={handleLogout} />
+        <FiLogOut className="logoutIcon" onClick={handleLogout} />
       ) : user ? (
-        <IoMdPerson className="mypage" onClick={gotoMypage} />
+        <IoMdPerson className="mypageIcon" onClick={gotoMypage} />
       ) : (
-        <FiLogIn className="login" onClick={handleLogin} />
+        <FiLogIn className="loginIcon" onClick={handleLogin} />
       )}
     </div>
   );
