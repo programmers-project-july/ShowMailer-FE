@@ -1,13 +1,13 @@
 import React from 'react';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
+import '@/components/header/Header.css';
 import { BsEnvelopeHeart } from 'react-icons/bs';
-import { GoSignOut } from 'react-icons/go';
+import { IoMdPerson } from 'react-icons/io';
 import { FiLogIn } from 'react-icons/fi';
-import '@/components/header/header.css';
 import { app } from '@/firebase';
 
-const header = () => {
+const Header = () => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const handleLogin = () => {
@@ -25,11 +25,12 @@ const header = () => {
   return (
     <div className="Hcontainer">
       <BsEnvelopeHeart className="logo" />
+      <p className="logoTitle">서울 문화공연 알리미</p>
       <FiLogIn className="login" onClick={handleLogin} />
-      {/* 로그인 상태 true 일 경우 > 로그아웃 버튼 or 사용자정보 표시
-      <GoSignOut className="logout" /> */}
+      {/* 로그인 상태 true 일 경우 > 사용자정보 표시
+      <IoMdPerson className="logout" /> */}
     </div>
   );
 };
 
-export default header;
+export default Header;
