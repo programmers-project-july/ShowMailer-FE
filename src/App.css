@@ -1,0 +1,51 @@
+.pcOverlay {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
+
+.pcImage {
+  display: block;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.appContainer {
+  position: absolute;
+  top: 0; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(10%); /*Adjust for the centered position*/
+  width: 30vw; /*Maintain 130x1200 aspect ratio */
+  height: 100vh; /* Maintain 130x1200 aspect ratio */
+  font-size: 18px;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  background-color: white; /* Background color for visibility */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+/* Hide scrollbar in WebKit browsers (e.g., Chrome, Safari) */
+.appContainer::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .pcImage {
+    display: none;
+  }
+
+  .appContainer {
+    position: static;
+    width: 100%; /* Full width for mobile */
+    height: 100vh; /* Full viewport height for mobile */
+    transform: none;
+    box-shadow: none;
+    overflow-y: auto;
+  }
+}
