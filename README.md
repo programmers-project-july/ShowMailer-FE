@@ -1,7 +1,5 @@
 # Deploy
 https://dev-alarm-fe.vercel.app/
-<br />
-merge 후 배포연동까지 n분 ~ n시간 소요된다고 한다.
 
 # React + TypeScript + Vite
 
