@@ -21,7 +21,7 @@ jobs:
         run: |
           git remote add forked-repo https://chae-dahee:${{ secrets.AUTO_ACTIONS }}@github.com/chae-dahee/dev-alarm-FE
           git config user.name chae-dahee
-          git config user.email cdh010126r@gmail.com
+          git config user.email ${{ secrets.EMAIL }}
       
       - name: Push changes to forked-repo 
         run: |

@@ -1,0 +1,50 @@
+.pcOverlay {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.pcImage {
+  display: block;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.appContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(10%);
+  width: 30vw;
+  height: 100vh;
+  font-size: 18px;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.appContainer::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .pcImage {
+    display: none;
+  }
+
+  .appContainer {
+    position: static;
+    width: 100%;
+    height: 100vh;
+    transform: none;
+    box-shadow: none;
+    overflow-y: auto;
+  }
+}
