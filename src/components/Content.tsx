@@ -80,10 +80,14 @@ export const performances: Tperformance[] = [
 ];
 
 const Content: React.FC = () => {
+  const handlePerformance = (id: number) => {
+    window.location.href = `/detail/${id}`;
+  };
+
   return (
     <div className="content-container">
       {performances.map((performance) => (
-        <div key={performance.id} className="Event-item">
+        <div key={performance.id} className="Event-item" onClick={() => handlePerformance(performance.id)}>
           <h2>{performance.title}</h2>
           <p>{performance.category}</p>
           <p>{performance.date}</p>

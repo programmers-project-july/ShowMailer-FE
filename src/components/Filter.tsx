@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '@/components/Filter.css';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPerformances, IPerformancePayload } from '@/apis/Performances';
 
-//임의의 카테고리 더미 데이터
+//임의의 카테고리 더미 데이터, api 연결되면 지울 예정
 export const category: string[] = [
   '전체',
   '교육/체험',
@@ -20,8 +22,17 @@ export const category: string[] = [
 
 const Filter: React.FC = () => {
   const [isDropdownView, setDropdownView] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>(category[0]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const {
+    data: performances,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['performances'],
+    queryFn: fetchPerformances,
+  });
 
   const handleClickContainer = () => {
     setDropdownView(!isDropdownView);
@@ -34,8 +45,8 @@ const Filter: React.FC = () => {
   };
 
   const handleDropdownItemClick = (category: string) => {
-    setSelectedCategory(category); // 선택된 카테고리 업데이트
-    setDropdownView(false); // 드롭다운 닫기
+    setSelectedCategory(category);
+    setDropdownView(false);
     console.log(`Selected category: ${category}`);
   };
 
@@ -47,30 +58,42 @@ const Filter: React.FC = () => {
     console.log(searchTerm);
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading data</div>;
+
+  const categories = Array.isArray(performances)
+    ? Array.from(new Set(performances.map((performance: IPerformancePayload) => performance.CODENAME)))
+    : [];
+
   return (
     <div className="filter-container" onBlur={handleBlurContainer}>
       <label onClick={handleClickContainer}>
         <button className="dropdown-btn" style={{ border: '2px solid #efefef' }}>
-          {selectedCategory ? selectedCategory : category[0]} {isDropdownView ? '▲' : '▼'}
+          {selectedCategory ? selectedCategory : '전체'} {isDropdownView ? '▲' : '▼'}
         </button>
       </label>
       {isDropdownView && (
         <ul className="dropdown-menu">
-          {category.map((category, index) => (
-            <li
-              key={index}
-              className={`dropdown-item  ${selectedCategory === category ? 'selected' : ''}`}
-              onClick={() => handleDropdownItemClick(category)}
-            >
-              {category}
-            </li>
-          ))}
+          {category.map(
+            (
+              category,
+              index, //['전체', ...categories]
+            ) => (
+              <li
+                key={index}
+                className={`dropdown-item ${selectedCategory === category ? 'selected' : ''}`}
+                onClick={() => handleDropdownItemClick(category)}
+              >
+                {category}
+              </li>
+            ),
+          )}
         </ul>
       )}
       <input
         type="text"
         className="search-input"
-        placeholder="검색..."
+        placeholder="제목 검색..."
         value={searchTerm}
         onChange={handleSearchChange}
       />
