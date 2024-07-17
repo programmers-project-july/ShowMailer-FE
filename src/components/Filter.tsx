@@ -58,12 +58,12 @@ const Filter: React.FC = () => {
     console.log(searchTerm);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading data</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError) return <div>Error loading data</div>;
 
-  const categories = Array.isArray(performances)
-    ? Array.from(new Set(performances.map((performance: IPerformancePayload) => performance.CODENAME)))
-    : [];
+  // const categories = Array.isArray(performances)
+  //   ? Array.from(new Set(performances.map((performance: IPerformancePayload) => performance.CODENAME)))
+  //   : [];
 
   return (
     <div className="filter-container" onBlur={handleBlurContainer}>
