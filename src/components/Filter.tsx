@@ -39,9 +39,7 @@ const Filter: React.FC = () => {
   };
 
   const handleBlurContainer = () => {
-    setTimeout(() => {
-      setDropdownView(false);
-    }, 200);
+    setDropdownView(false);
   };
 
   const handleDropdownItemClick = (category: string) => {
