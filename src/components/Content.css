@@ -1,0 +1,23 @@
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 반응형 격자 형태로 설정 */
+  gap: 20px; /* 격자 사이 간격 설정 */
+  padding: 20px;
+}
+
+.Event-item {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+.Event-item h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.Event-item p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
