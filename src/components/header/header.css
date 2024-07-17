@@ -1,17 +1,25 @@
 .Hcontainer {
   width: 100%;
-  max-width: 480px;
-  min-height: 40px;
+  min-width: 300px;
+  min-height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 15px;
+  margin: 0 auto;
 
-  border-bottom: 1px solid blue;
+  /* border-bottom: 1px solid blue; */
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
   background-color: #fff;
   color: #eb6b83;
   overflow: hidden;
 
   font-size: 30px;
+  font-weight: bold;
+}
+
+.logoTitle {
+  font-size: 16px;
 }
