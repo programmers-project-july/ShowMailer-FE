@@ -61,7 +61,6 @@ const Header = () => {
         const idToken = await getIdToken(user);
         // expires: 1시간
         Cookies.set('accessToken', idToken, { expires: 1 / 24 });
-        console.log('액세스 토큰 저장 완료');
       }
     } catch (error) {
       console.error('액세스 토큰 저장 실패', error);
