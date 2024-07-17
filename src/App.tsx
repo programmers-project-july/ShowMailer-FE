@@ -9,16 +9,14 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <div className="pcOverlay">
         <img src={BgImg} className="pcImage" alt="PC Description" />
         <div className="appContainer">
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
+          <RouterProvider router={router} />
         </div>
       </div>
-    </>
+    </QueryClientProvider>
   );
 }
 
