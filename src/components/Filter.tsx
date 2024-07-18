@@ -26,11 +26,18 @@ const Filter: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const {
+    /** data : 쿼리 함수의 반환값을 저장하는 변수 */
     data: performances,
+    /** isLoading : 쿼리 함수가 아직 반환되지 않았을 때 true를 반환하는 변수 */
     isLoading,
+    /** isError : 쿼리 함수가 에러를 발생시킬 경우 true를 반환하는 변수 */
     isError,
+    /** refetch : 쿼리 함수를 다시 실행하는 함수 (재조회 용으로 이용됨) */
+    refetch,
   } = useQuery({
+    /** queryKey : 향후 캐싱 기능에서 이용이 되며, 중복되는 요청을 방지할때에 구분자로도 이용됨 */
     queryKey: ['performances'],
+    /** queryFn : 실행할 함수를 선언해주며, 주로 API요청을 호출하는 로직으로 이용됨. */
     queryFn: fetchPerformances,
   });
 
@@ -70,6 +77,27 @@ const Filter: React.FC = () => {
           {selectedCategory ? selectedCategory : '전체'} {isDropdownView ? '▲' : '▼'}
         </button>
       </label>
+
+      {/* REVIEW : react-query으로 반환된 데이터 적용 */}
+      {/*
+       * Renders a dropdown menu with a list of performance categories.
+       * The dropdown is displayed when `isDropdownView` is true, and the selected category is highlighted.
+       * Clicking on a category item in the dropdown will update the `selectedCategory` state and close the dropdown.
+       */}
+      {/* {isDropdownView && (
+        <ul className="dropdown-menu">
+          {performances?.map((performance, i) => (
+            <li
+              key={i}
+              className={`dropdown-item ${selectedCategory === performance.CODENAME ? 'selected' : ''}`}
+              onClick={() => handleDropdownItemClick(performance.CODENAME)}
+            >
+              {category}
+            </li>
+          ))}
+        </ul>
+      )} */}
+
       {isDropdownView && (
         <ul className="dropdown-menu">
           {category.map(

@@ -1,11 +1,11 @@
 // Import the functions you need from the SDKs you need
-import { getApp, initializeApp, FirebaseApp } from 'firebase/app';
+import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
 import 'firebase/auth';
 
-export let app: FirebaseApp;
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -16,11 +16,18 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
 };
 
-try {
-  app = getApp('app');
-} catch (e) {
-  app = initializeApp(firebaseConfig, 'app');
-}
+/**
+ * Gets an array of all the currently initialized Firebase apps.
+ * @returns {FirebaseApp[]} An array of all the currently initialized Firebase apps.
+ */
+const alreadyCreatedAps = getApps();
+
+/**
+ * Initializes a Firebase app with the provided configuration, or returns the first already initialized app if one exists.
+ * @returns {FirebaseApp} The initialized Firebase app.
+ */
+export const app =
+  alreadyCreatedAps.length === 0 ? initializeApp(firebaseConfig, 'unblock_media') : alreadyCreatedAps[0];
 
 const firebase = initializeApp(firebaseConfig);
 
