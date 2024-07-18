@@ -27,7 +27,7 @@ const alreadyCreatedAps = getApps();
  * @returns {FirebaseApp} The initialized Firebase app.
  */
 export const app =
-  alreadyCreatedAps.length === 0 ? initializeApp(firebaseConfig, 'unblock_media') : alreadyCreatedAps[0];
+  alreadyCreatedAps.length === 0 ? initializeApp(firebaseConfig, 'app') : alreadyCreatedAps[0];
 
 const firebase = initializeApp(firebaseConfig);
 
