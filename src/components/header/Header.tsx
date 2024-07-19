@@ -16,11 +16,14 @@ import { IoMdPerson } from 'react-icons/io';
 import { FiLogIn } from 'react-icons/fi';
 import { FiLogOut } from 'react-icons/fi';
 import { app } from '@/firebase';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,7 +50,7 @@ const Header = () => {
       .then(() => {
         setUser(null);
         console.log('로그아웃 성공');
-        window.location.href = '/';
+        navigate('/');
       })
       .catch((error) => {
         console.error('로그아웃 실패', error);
@@ -70,7 +73,7 @@ const Header = () => {
   const gotoMypage = () => {
     if (user && user.displayName) {
       const displayName = encodeURIComponent(user.displayName);
-      window.location.href = `/mypage?name=${displayName}`;
+      navigate(`/mypage?name=${displayName}`);
     }
   };
 
@@ -80,10 +83,12 @@ const Header = () => {
 
   return (
     <div className="Hcontainer">
-      <BsEnvelopeHeart className="logo" />
-      <p className="logoTitle" onClick={() => (window.location.href = '/')}>
+      <Link to="/">
+        <BsEnvelopeHeart className="logo" />
+      </Link>
+      <Link to="/" className="logoTitle">
         서울 문화공연 알리미
-      </p>
+      </Link>
       {isMypage ? (
         <FiLogOut className="logoutIcon" onClick={handleLogout} />
       ) : user ? (
