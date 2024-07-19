@@ -1,22 +1,78 @@
-.detail-container {
+.detailContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  flex-direction: column;
+  margin-top: 20px;
 }
 
 .Poster {
-  width: 40%;
-  /* margin: 0 auto; */
+  width: 60%;
+  margin: 0 auto;
 }
 
-.event-text {
+.eventText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
 
-  width: 40%;
-  /* margin: 0 auto; */
+  width: 80%;
+  height: auto;
+  margin-top: 10px;
   /* border: 1px solid red; */
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.eventText h2 {
+  margin-bottom: 10px; /* 제목과 다음 요소 간의 간격을 늘립니다 */
+  font-size: 24px; /* 제목 크기를 약간 키우는 것도 좋습니다 */
+  color: #333; /* 제목 색상 추가 */
+}
+
+.eventText p {
+  margin: 5px 0; /* 각 p 요소의 상하 여백을 늘립니다 */
+}
+
+.heartContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 18px;
+}
+.heartIcon {
+  font-size: 30px;
+  color: #eb6b83;
+}
+
+.goPageBtn {
+  width: 80%;
+  display: inline-block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #eb6b83; /* 버튼 배경색 */
+  color: white; /* 버튼 텍스트 색상 */
+
+  text-align: center;
+  border-radius: 5px; /* 모서리 둥글게 */
+  border: none; /* 버튼의 기본 테두리 제거 */
+  font-size: 16px;
+
+  cursor: pointer; /* 커서 모양을 손가락 모양으로 */
+  transition:
+    background-color 0.3s,
+    transform 0.2s; /* 부드러운 배경색 변경과 클릭 애니메이션 */
+}
+
+.goPageBtn:hover {
+  background-color: #d9536f; /* 버튼 호버 시 배경색 변경 */
+  transform: scale(1.02); /* 버튼 크기 살짝 확대 */
+}
+
+.goPageBtn:active {
+  background-color: #b74e5f; /* 버튼 클릭 시 배경색 변경 */
+  transform: scale(0.98); /* 버튼 클릭 시 크기 줄이기 */
 }

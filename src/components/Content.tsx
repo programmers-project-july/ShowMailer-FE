@@ -1,5 +1,6 @@
 import React from 'react';
 import '@/components/Content.css';
+import { useNavigate } from 'react-router-dom';
 
 // 공연 데이터 타입 정의
 export interface Tperformance {
@@ -80,8 +81,9 @@ export const performances: Tperformance[] = [
 ];
 
 const Content: React.FC = () => {
+  const navigate = useNavigate();
   const handlePerformance = (id: number) => {
-    window.location.href = `/detail/${id}`;
+    navigate(`/detail/${id}`);
   };
 
   return (

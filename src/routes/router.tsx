@@ -3,7 +3,6 @@ import Detail from '@/pages/detail/Detail';
 import Mypage from '@/pages/mypage/Mypage';
 import NotFound from '@/pages/Not-found';
 import { createBrowserRouter } from 'react-router-dom';
-import { performances, Tperformance } from '@/components/Content';
 
 export const router = createBrowserRouter([
   {
