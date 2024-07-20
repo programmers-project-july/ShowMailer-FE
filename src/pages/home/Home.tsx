@@ -27,7 +27,7 @@ const Home = () => {
         <br />
         <span className="highlight">캘린더 일정</span>까지
         <br />
-        한번에 <span className="highlight">~~~</span>로 관리해요!
+        한번에 <span className="highlight">Show Mailer</span>로 관리해요!
       </div>
       <div className="container">
         <Filter />
