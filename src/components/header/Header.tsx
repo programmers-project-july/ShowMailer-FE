@@ -18,7 +18,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { app } from '@/firebase';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ onUserChange }: { onUserChange: (user: User | null) => void }) => {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -28,9 +28,10 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      onUserChange(user);
     });
     return () => unsubscribe();
-  }, [auth]);
+  }, [auth,onUserChange]);
 
   const handleLogin = () => {
     signInWithPopup(auth, provider)
