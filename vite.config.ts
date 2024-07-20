@@ -12,4 +12,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  server: {
+    proxy: {
+      '/events': 'https://demo-be-navy.vercel.app',
+    },
+  },
 });

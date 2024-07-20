@@ -3,29 +3,46 @@ import '@/components/Filter.css';
 import { useQuery } from '@tanstack/react-query';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 
-//임의의 카테고리 더미 데이터, api 연결되면 지울 예정
-// export const category: string[] = [
-//   '전체',
-//   '교육/체험',
-//   '국악',
-//   '독주/독창회',
-//   '무용',
-//   '뮤지컬/오페라',
-//   '연극',
-//   '영화',
-//   '전시/미술',
-//   '축제',
-//   '콘서트',
-//   '클래식',
-//   '기타',
-// ];
+interface FilterProps {
+  onCategoryChange: (category: string) => void;
+}
 
-const Filter: React.FC = () => {
+const Filter: React.FC<FilterProps> = ({ onCategoryChange }) => {
   const [isDropdownView, setDropdownView] = useState(false);
+  const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { performances, isLoading, isError } = usePerformances();
+  const { performances, isLoading, isError, refetch } = usePerformances();
+
+  useEffect(() => {
+    if (performances) {
+      const uniqueCategories = Array.from(
+        new Set(performances.map((performance: IPerformancePayload) => performance.codename)),
+      );
+      setCategories(['전체', ...uniqueCategories]);
+    }
+  }, [performances]);
+
+  useEffect(() => {
+    onCategoryChange(selectedCategory);
+  }, [selectedCategory, onCategoryChange]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div>
+        Error fetching performances. <button onClick={() => refetch()}>Retry</button>
+      </div>
+    );
+  }
+
+  if (!Array.isArray(performances) || performances.length === 0) {
+    return <div>No performances available.</div>;
+  }
 
   const handleClickContainer = () => {
     setDropdownView(!isDropdownView);
@@ -38,7 +55,7 @@ const Filter: React.FC = () => {
   const handleDropdownItemClick = (category: string) => {
     setSelectedCategory(category);
     setDropdownView(false);
-    console.log(`Selected category: ${category}`);
+    return category;
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,27 +66,6 @@ const Filter: React.FC = () => {
     console.log(searchTerm);
   };
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (isError) return <div>Error loading data</div>;
-
-  // const categories = Array.isArray(performances)
-  //   ? Array.from(new Set(performances.map((performance: IPerformancePayload) => performance.CODENAME)))
-  //   : [];
-
-  useEffect(() => {
-    if (performances) {
-      console.log('Performance 데이터:', performances);
-    }
-  }, [performances]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error occurred</div>;
-  }
-
   return (
     <div className="filter-container" onBlur={handleBlurContainer}>
       <label onClick={handleClickContainer}>
@@ -77,45 +73,20 @@ const Filter: React.FC = () => {
           {selectedCategory ? selectedCategory : '전체'} {isDropdownView ? '▲' : '▼'}
         </button>
       </label>
-
-      {/* REVIEW : react-query으로 반환된 데이터 적용 */}
-      {/*
-       * Renders a dropdown menu with a list of performance categories.
-       * The dropdown is displayed when `isDropdownView` is true, and the selected category is highlighted.
-       * Clicking on a category item in the dropdown will update the `selectedCategory` state and close the dropdown.
-       */}
-      {isDropdownView && performances && Array.isArray(performances) && (
+      {isDropdownView && (
         <ul className="dropdown-menu">
-          {performances?.map((performance: IPerformancePayload, i: number) => (
+          {categories.map((category: string) => (
             <li
-              key={i}
-              className={`dropdown-item ${selectedCategory === performance.CODENAME ? 'selected' : ''}`}
-              onClick={() => handleDropdownItemClick(performance.CODENAME)}
+              key={category}
+              className={`dropdown-item ${selectedCategory === category ? 'selected' : ''}`}
+              onClick={() => handleDropdownItemClick(category)}
             >
-              {performance.CODENAME}
+              {category}
             </li>
           ))}
         </ul>
       )}
 
-      {/* {isDropdownView && (
-        <ul className="dropdown-menu">
-          {category.map(
-            (
-              category,
-              index, //['전체', ...categories]
-            ) => (
-              <li
-                key={index}
-                className={`dropdown-item ${selectedCategory === category ? 'selected' : ''}`}
-                onClick={() => handleDropdownItemClick(category)}
-              >
-                {category}
-              </li>
-            ),
-          )}
-        </ul>
-      )} */}
       <input
         type="text"
         className="search-input"

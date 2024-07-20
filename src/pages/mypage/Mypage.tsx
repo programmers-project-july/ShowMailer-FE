@@ -19,7 +19,7 @@ const Mypage = () => {
     <>
       <Header onUserChange={handleUserChange} />
       <div className="mypageContainer">
-        {userInfo && userInfo.displayName ? <h3>{userInfo.displayName} 님이 좋아하신 공연들</h3> : <Link to="/" />}
+        {userInfo && userInfo.displayName ? <h3>{userInfo.displayName} 님이 좋아하신 공연</h3> : <Link to="/" />}
         <Content />
       </div>
     </>
