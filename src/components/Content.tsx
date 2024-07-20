@@ -12,11 +12,6 @@ export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
 
   const { performances, isLoading, isError, refetch } = usePerformances();
 
-  const handlePerformance = (performance: IPerformancePayload) => {
-    const { CODENAME, TITLE, DATE } = performance;
-    navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
-  };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -38,16 +33,38 @@ export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
     (performance: IPerformancePayload) => selectedCategory === '전체' || performance.codename === selectedCategory,
   );
 
+  const handlePerformance = (performance: IPerformancePayload) => {
+    const { CODENAME, TITLE, DATE } = performance;
+    navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
+  };
+
   return (
     <div className="content-container">
-      {performances.map((performance) => (
+      {/* {performances.map((performance) => (
         <div key={performance.id} className="Event-item" onClick={() => handlePerformance(performance.id)}>
           <h2>{performance.title}</h2>
           <p>{performance.category}</p>
           <p>{performance.date}</p>
           <p>{performance.location}</p>
-        </div>
-      ))}
+        </div> 
+        ))}*/}
+      {filteredPerformances.length > 0 ? (
+        filteredPerformances.map((performance: IPerformancePayload) => (
+          <div
+            key={`${performance.title}-${performance.date}-${performance.codename}`}
+            className="EventItem"
+            onClick={() => handlePerformance(performance)}
+          >
+            <img src={performance.image} alt={performance.title} />
+            <h3>{performance.title}</h3>
+            <p>{performance.codename}</p>
+            <p>{performance.date}</p>
+            <p>{performance.place}</p>
+          </div>
+        ))
+      ) : (
+        <div>No performances found for the selected category.</div>
+      )}
     </div>
   );
 };
