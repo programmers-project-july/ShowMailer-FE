@@ -1,4 +1,4 @@
-.filter-container {
+.filterContainer {
   position: relative;
   display: flex;
   align-items: center;
@@ -7,8 +7,8 @@
   margin: 0 auto;
 }
 
-.dropdown-btn,
-.search-btn {
+.dropdownBtn,
+.searchBtn {
   background-color: white;
   color: black;
   padding: 10px;
@@ -17,12 +17,12 @@
   border-radius: 5px;
 }
 
-.dropdown-btn:focus,
-.search-btn:focus {
+.dropdownBtn:focus,
+.searchBtn:focus {
   outline: none;
 }
 
-.dropdown-menu {
+.dropdownMenu {
   list-style-type: none;
   padding: 0;
   margin-left: 10px;
@@ -37,18 +37,18 @@
   left: 0;
 }
 
-.dropdown-item {
+.dropdownItem {
   padding: 8px 12px;
   cursor: pointer;
   font-size: 16px;
 }
 
-.dropdown-item:hover,
-.dropdown-item.selected {
+.dropdownItem:hover,
+.dropdownItem.selected {
   background-color: #efefef;
 }
 
-.search-input {
+.searchInput {
   margin: 10px;
   padding: 10px;
   border: 1px solid #ccc;

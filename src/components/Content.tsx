@@ -1,37 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@/components/Content.css';
 import { useNavigate } from 'react-router-dom';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 
 interface ContentProps {
-  selectedCategory: string;
+  filteredPerformances: IPerformancePayload[];
 }
 
-export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
+export const Content: React.FC<ContentProps> = ({ filteredPerformances }) => {
   const navigate = useNavigate();
 
-  const { performances, isLoading, isError, refetch } = usePerformances();
+  // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
+  // const { performances, isLoading, isError, refetch } = usePerformances();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return (
-      <div>
-        Error fetching performances. <button onClick={() => refetch()}>Retry</button>
-      </div>
-    );
-  }
-
-  if (!Array.isArray(performances) || performances.length === 0) {
-    return <div>No performances available.</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (isError) {
+  //   return (
+  //     <div>
+  //       Error fetching performances. <button onClick={() => refetch()}>Retry</button>
+  //     </div>
+  //   );
+  // }
+  // if (!Array.isArray(performances) || performances.length === 0) {
+  //   return <div>No performances available.</div>;
+  // }
 
   // 카테고리 선택에 따라 공연 데이터를 필터링
-  const filteredPerformances = performances.filter(
-    (performance: IPerformancePayload) => selectedCategory === '전체' || performance.codename === selectedCategory,
-  );
+  // const handleCategoryChange = (category: string) => {
+  //   if (category === '전체') {
+  //     setFilteredPerformances(performances);
+  //   } else {
+  //     const filtered = performances.filter((performance) => performance.codename === category);
+  //     setFilteredPerformances(filtered);
+  //   }
+  // };
+  if (filteredPerformances.length === 0) {
+    return <div>등록된 공연이 없습니다.</div>;
+  }
 
   const handlePerformance = (performance: IPerformancePayload) => {
     const { CODENAME, TITLE, DATE } = performance;
@@ -39,17 +46,26 @@ export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
   };
 
   return (
-    <div className="content-container">
-      {filteredPerformances.length > 0 &&
+    <div className="contentContainer">
+      {filteredPerformances.map((performance, index) => (
+        <div key={index} className="EventItem" onClick={() => handlePerformance(performance)}>
+          <img src={performance.image} alt={performance.title} />
+          <h3>{performance.title}</h3>
+          <p>{performance.category}</p>
+          <p>{performance.date}</p>
+          <p>{performance.location}</p>
+        </div>
+      ))}
+      {/* {filteredPerformances.length > 0 &&
         performances.map((performance) => (
-          <div key={performance.id} className="EventItem" onClick={() => handlePerformance(performance.id)}>
+          <div key={performance.id} className="EventItem" onClick={() => handlePerformance(performance)}>
             <img src={performance.image} alt={performance.title} />
             <h3>{performance.title}</h3>
             <p>{performance.category}</p>
             <p>{performance.date}</p>
             <p>{performance.location}</p>
           </div>
-        ))}
+        ))} */}
       {/* {filteredPerformances.length > 0 ? (
         filteredPerformances.map((performance: IPerformancePayload, index: number) => (
           <div key={index} className="EventItem" onClick={() => handlePerformance(performance)}>
