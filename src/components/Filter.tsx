@@ -55,7 +55,6 @@ const Filter: React.FC<FilterProps> = ({ onCategoryChange }) => {
   const handleDropdownItemClick = (category: string) => {
     setSelectedCategory(category);
     setDropdownView(false);
-    return category;
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -40,21 +40,19 @@ export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
 
   return (
     <div className="content-container">
-      {/* {performances.map((performance) => (
-        <div key={performance.id} className="Event-item" onClick={() => handlePerformance(performance.id)}>
-          <h2>{performance.title}</h2>
-          <p>{performance.category}</p>
-          <p>{performance.date}</p>
-          <p>{performance.location}</p>
-        </div> 
-        ))}*/}
-      {filteredPerformances.length > 0 ? (
-        filteredPerformances.map((performance: IPerformancePayload) => (
-          <div
-            key={`${performance.title}-${performance.date}-${performance.codename}`}
-            className="EventItem"
-            onClick={() => handlePerformance(performance)}
-          >
+      {filteredPerformances.length > 0 &&
+        performances.map((performance) => (
+          <div key={performance.id} className="EventItem" onClick={() => handlePerformance(performance.id)}>
+            <img src={performance.image} alt={performance.title} />
+            <h3>{performance.title}</h3>
+            <p>{performance.category}</p>
+            <p>{performance.date}</p>
+            <p>{performance.location}</p>
+          </div>
+        ))}
+      {/* {filteredPerformances.length > 0 ? (
+        filteredPerformances.map((performance: IPerformancePayload, index: number) => (
+          <div key={index} className="EventItem" onClick={() => handlePerformance(performance)}>
             <img src={performance.image} alt={performance.title} />
             <h3>{performance.title}</h3>
             <p>{performance.codename}</p>
@@ -64,7 +62,7 @@ export const Content: React.FC<ContentProps> = ({ selectedCategory }) => {
         ))
       ) : (
         <div>No performances found for the selected category.</div>
-      )}
+      )} */}
     </div>
   );
 };
