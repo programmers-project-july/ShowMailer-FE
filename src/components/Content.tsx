@@ -80,7 +80,7 @@ export const performances: Tperformance[] = [
   },
 ];
 
-const Content: React.FC = () => {
+export const Content: React.FC = () => {
   const navigate = useNavigate();
   const handlePerformance = (id: number) => {
     navigate(`/detail/${id}`);
