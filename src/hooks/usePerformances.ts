@@ -1,51 +1,42 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchPerformances } from '@/apis/Performances';
+import { fetchPerformances } from '@/apis/Performances.api';
 import { useEffect, useState } from 'react';
 
 export interface IPerformancePayload {
-  CODENAME: string;
-  GUNAME: string;
-  TITLE: string;
-  DATE: string;
-  PLACE: string;
-  ORG_NAME: string;
-  USE_TRGT: string;
-  USE_FEE: string;
-  PLAYER: string;
-  PROGRAM: string;
-  ETC_DESC: string;
-  ORG_LINK: string;
-  MAIN_IMG: string;
-  RGSTDATE: string;
-  TICKET: string;
-  STRTDATE: string;
-  END_DATE: string;
-  THEMECODE: string;
-  LOT: string;
-  LAT: string;
-  IS_FREE: string;
-  HMPG_ADDR: string;
+  CODENAME: string; // 분류
+  GUNAME: string; // 자치구
+  TITLE: string; // 공연/행사명
+  DATE: string; // 날짜/시간
+  PLACE: string; // 장소
+  ORG_NAME: string; // 기관명
+  USE_TRGT: string; // 이용 대상
+  USE_FEE: string; // 이용 요금
+  PLAYER: string; // 출연자 정보
+  PROGRAM: string; // 프로그램 소개
+  ETC_DESC: string; // 기타 내용
+  ORG_LINK: string; // 홈페이지 주소
+  MAIN_IMG: string; // 대표 이미지
+  RGSTDATE: string; // 신청일
+  TICKET: string; // 시민/기관
+  STRTDATE: string; // 시작일
+  END_DATE: string; // 종료일
+  THEMECODE: string; // 테마분류
+  LOT: string; // 위도(x좌표)
+  LAT: string; // 경도(y좌표)
+  IS_FREE: string; // 유무료
+  HMPG_ADDR: string; // 문화포털상세URL
 }
 
 export const usePerformances = () => {
-  // const [] = useState<>();
   const {
-    /** data : 쿼리 함수의 반환값을 저장하는 변수 */
     data: performances,
-    /** isLoading : 쿼리 함수가 아직 반환되지 않았을 때 true를 반환하는 변수 */
     isLoading,
-    /** isError : 쿼리 함수가 에러를 발생시킬 경우 true를 반환하는 변수 */
     isError,
-    /** refetch : 쿼리 함수를 다시 실행하는 함수 (재조회 용으로 이용됨) */
     refetch,
-  } = useQuery({
-    /** queryKey : 향후 캐싱 기능에서 이용이 되며, 중복되는 요청을 방지할때에 구분자로도 이용됨 */
+  } = useQuery<IPerformancePayload[]>({
     queryKey: ['performances'],
-    /** queryFn : 실행할 함수를 선언해주며, 주로 API요청을 호출하는 로직으로 이용됨. */
     queryFn: fetchPerformances,
   });
 
-  useEffect(() => {
-    fetchPerformances().then();
-  });
+  return { performances, isLoading, isError, refetch };
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@/pages/detail/Detail.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -6,8 +6,15 @@ import Header from '@/components/header/Header';
 import { AiFillHeart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { usePerformances } from '@/hooks/usePerformances';
+import { User } from 'firebase/auth';
 
 const Detail: React.FC = () => {
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  // 사용자 정보를 상위 컴포넌트에서 관리
+  const handleUserChange = (user: User | null) => {
+    setUserInfo(user);
+  };
+
   const performance = usePerformances();
 
   const handleButtonClick = () => {
@@ -18,7 +25,7 @@ const Detail: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header onUserChange={handleUserChange} />
       <div className="detailContainer">
         <img
           className="Poster"
@@ -43,7 +50,6 @@ const Detail: React.FC = () => {
         홈페이지 바로 가기
       </button>
       {/* {performance.ORG_LINK} */}
-      
     </>
   );
 };
