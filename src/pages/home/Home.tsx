@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import '@/pages/home//Home.css';
 import Header from '@/components/header/Header';
 import Filter from '@/components/Filter';
 import Content from '@/components/Content';
+import { User } from 'firebase/auth';
 
 const Home = () => {
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  // 사용자 정보를 상위 컴포넌트에서 관리
+  const handleUserChange = (user: User | null) => {
+    setUserInfo(user);
+  };
   return (
     <>
-      <Header />
+      <Header onUserChange={handleUserChange} />
       <div className="banner">
         서울시에서 열리는
         <br />
