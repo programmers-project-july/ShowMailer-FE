@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 

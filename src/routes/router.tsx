@@ -17,8 +17,8 @@ export const router = createBrowserRouter([
     path: '/:userId',
     element: <Mypage />,
   },
-  {
-    path: '*', // 모든 경로에 부합하지 않는 경우
-    element: <NotFound />,
-  },
+  // {
+  //   path: '*', // 모든 경로에 부합하지 않는 경우
+  //   element: <NotFound />,
+  // },
 ]);
