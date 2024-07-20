@@ -7,10 +7,16 @@ import Content from '@/components/Content';
 import { User } from 'firebase/auth';
 
 const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+
   const [userInfo, setUserInfo] = useState<User | null>(null);
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
     setUserInfo(user);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
   };
 
   return (
@@ -30,8 +36,8 @@ const Home = () => {
         한번에 <span className="highlight">Show Mailer</span>로 관리해요!
       </div>
       <div className="container">
-        <Filter />
-        <Content />
+        <Filter onCategoryChange={handleCategoryChange} />
+        <Content selectedCategory={selectedCategory} />
       </div>
     </>
   );
