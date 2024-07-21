@@ -10,20 +10,19 @@ import axios from 'axios';
 
 const Home = () => {
   const { performances, isLoading, isError, refetch } = usePerformances();
+
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
+
   const [userInfo, setUserInfo] = useState<User | null>(null);
 
   // Performances 데이터 업데이트
   useEffect(() => {
-    if (performances) {
-      const uniqueCategories = ['전체', ...new Set(performances && performances.map((p) => p.codename))];
-      // 현재 categories와 uniqueCategories가 다를 때만 상태 업데이트
-      if (JSON.stringify(categories) !== JSON.stringify(uniqueCategories)) {
-        setCategories(uniqueCategories);
-      }
+    if (performances && Array.isArray(performances)) {
+      const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
+      setCategories(uniqueCategories);
     }
-  }, [performances]); // performances와 categories가 변경될 때만 실행됨
+  }, [performances]); // performances가 변경될 때만 실행됨
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback((category: string) => {

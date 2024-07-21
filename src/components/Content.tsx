@@ -28,19 +28,18 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
     navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
   };
 
+
   return (
     <div className="contentContainer">
       {filteredPerformances.length === 0 ? (
         <div>등록된 공연이 없습니다.</div>
       ) : (
-        filteredPerformances &&
         filteredPerformances.map((performance, index) => (
           <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
             <img src={performance.image} alt={performance.title} />
             <h3>{performance.title}</h3>
-            <p>{performance.category}</p>
+            <p>{performance.codename}</p>
             <p>{performance.date}</p>
-            <p>{performance.location}</p>
           </div>
         ))
       )}
