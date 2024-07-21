@@ -12,7 +12,8 @@ interface ContentProps {
   // onLoadMore: () => void;
 }
 
-export const Content: React.FC<ContentProps> = ({ performances, selectedCategory,  }) => {//hasMore, isLoading, onLoadMore
+export const Content: React.FC<ContentProps> = ({ performances, selectedCategory }) => {
+  //hasMore, isLoading, onLoadMore
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -32,6 +33,7 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
       {filteredPerformances.length === 0 ? (
         <div>등록된 공연이 없습니다.</div>
       ) : (
+        filteredPerformances &&
         filteredPerformances.map((performance, index) => (
           <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
             <img src={performance.image} alt={performance.title} />
