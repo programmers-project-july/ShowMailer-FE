@@ -7,13 +7,9 @@ import axios from 'axios';
 interface ContentProps {
   performances: IPerformancePayload[];
   selectedCategory: string;
-  // hasMore: boolean;
-  // isLoading: boolean;
-  // onLoadMore: () => void;
 }
 
 export const Content: React.FC<ContentProps> = ({ performances, selectedCategory }) => {
-  //hasMore, isLoading, onLoadMore
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 

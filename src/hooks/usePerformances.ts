@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPerformances } from '@/apis/Performances.api';
 
 export interface IPerformancePayload {
-  TITLE: string;
-  IMAGE: string;
-  CODENAME: string;
-  DATE: string;
+  title: string;
+  image: string;
+  codename: string;
+  date: string;
   [key: string]: any; // 추가 속성들을 허용
 }
 
