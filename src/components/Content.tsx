@@ -1,83 +1,51 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import '@/components/Content.css';
 import { useNavigate } from 'react-router-dom';
-import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
+import { IPerformancePayload } from '@/hooks/usePerformances';
+import axios from 'axios';
 
 interface ContentProps {
-  filteredPerformances: IPerformancePayload[];
+  performances: IPerformancePayload[];
+  selectedCategory: string;
+  // hasMore: boolean;
+  // isLoading: boolean;
+  // onLoadMore: () => void;
 }
 
-export const Content: React.FC<ContentProps> = ({ filteredPerformances }) => {
+export const Content: React.FC<ContentProps> = ({ performances, selectedCategory,  }) => {//hasMore, isLoading, onLoadMore
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+
   const navigate = useNavigate();
 
-  // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
-  // const { performances, isLoading, isError, refetch } = usePerformances();
+  // 선택된 카테고리로 필터링
+  const filteredPerformances =
+    selectedCategory === '전체' ? performances : performances.filter((p) => p.codename === selectedCategory);
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (isError) {
-  //   return (
-  //     <div>
-  //       Error fetching performances. <button onClick={() => refetch()}>Retry</button>
-  //     </div>
-  //   );
-  // }
-  // if (!Array.isArray(performances) || performances.length === 0) {
-  //   return <div>No performances available.</div>;
-  // }
-
-  // 카테고리 선택에 따라 공연 데이터를 필터링
-  // const handleCategoryChange = (category: string) => {
-  //   if (category === '전체') {
-  //     setFilteredPerformances(performances);
-  //   } else {
-  //     const filtered = performances.filter((performance) => performance.codename === category);
-  //     setFilteredPerformances(filtered);
-  //   }
-  // };
-  if (filteredPerformances.length === 0) {
-    return <div>등록된 공연이 없습니다.</div>;
-  }
-
-  const handlePerformance = (performance: IPerformancePayload) => {
+  const handlePerformanceClick = (performance: IPerformancePayload) => {
     const { CODENAME, TITLE, DATE } = performance;
     navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
   };
 
   return (
     <div className="contentContainer">
-      {filteredPerformances.map((performance, index) => (
-        <div key={index} className="EventItem" onClick={() => handlePerformance(performance)}>
-          <img src={performance.image} alt={performance.title} />
-          <h3>{performance.title}</h3>
-          <p>{performance.category}</p>
-          <p>{performance.date}</p>
-          <p>{performance.location}</p>
-        </div>
-      ))}
-      {/* {filteredPerformances.length > 0 &&
-        performances.map((performance) => (
-          <div key={performance.id} className="EventItem" onClick={() => handlePerformance(performance)}>
+      {filteredPerformances.length === 0 ? (
+        <div>등록된 공연이 없습니다.</div>
+      ) : (
+        filteredPerformances.map((performance, index) => (
+          <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
             <img src={performance.image} alt={performance.title} />
             <h3>{performance.title}</h3>
             <p>{performance.category}</p>
             <p>{performance.date}</p>
             <p>{performance.location}</p>
           </div>
-        ))} */}
-      {/* {filteredPerformances.length > 0 ? (
-        filteredPerformances.map((performance: IPerformancePayload, index: number) => (
-          <div key={index} className="EventItem" onClick={() => handlePerformance(performance)}>
-            <img src={performance.image} alt={performance.title} />
-            <h3>{performance.title}</h3>
-            <p>{performance.codename}</p>
-            <p>{performance.date}</p>
-            <p>{performance.place}</p>
-          </div>
         ))
-      ) : (
-        <div>No performances found for the selected category.</div>
+      )}
+      {/* {hasMore && (
+        <button className="loadMoreBtn" onClick={onLoadMore} >
+          더 보기
+        </button>
       )} */}
     </div>
   );

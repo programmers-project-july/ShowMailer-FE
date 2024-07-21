@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import '@/pages/home//Home.css';
 import Header from '@/components/header/Header';
@@ -6,54 +6,38 @@ import Filter from '@/components/Filter';
 import Content from '@/components/Content';
 import { User } from 'firebase/auth';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
+import axios from 'axios';
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
-  const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
   const { performances, isLoading, isError, refetch } = usePerformances();
-
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [categories, setCategories] = useState<string[]>([]);
   const [userInfo, setUserInfo] = useState<User | null>(null);
+
+  // Performances 데이터 업데이트
+  useEffect(() => {
+    if (performances) {
+      const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
+      // 현재 categories와 uniqueCategories가 다를 때만 상태 업데이트
+      if (JSON.stringify(categories) !== JSON.stringify(uniqueCategories)) {
+        setCategories(uniqueCategories);
+      }
+    }
+  }, [performances, categories]); // performances와 categories가 변경될 때만 실행됨
+
+  // 카테고리 변경 처리
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  // 로딩 및 에러 상태 처리
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError) return <div>데이터를 불러오는 데 문제가 발생했습니다.</div>;
+
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
     setUserInfo(user);
   };
-
-  useEffect(() => {
-    if (performances) {
-      const categories = ['전체', ...new Set(performances.map((p) => p.codename))];
-      // 필터링 로직
-      const filtered =
-        selectedCategory === '전체' ? performances : performances.filter((p) => p.codename === selectedCategory);
-
-      setFilteredPerformances(filtered);
-
-      // Filter 컴포넌트에 전달할 카테고리 목록
-      const categoriesList = ['전체', ...new Set(performances.map((p) => p.codename))];
-
-      // 이 부분은 실제로는 Filter 컴포넌트에 카테고리 목록을 prop으로 전달하는 로직을 수행합니다.
-    }
-  }, [selectedCategory, performances]);
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  // Filter 컴포넌트에 전달할 카테고리 목록
-  const categories = ['전체', ...new Set(performances.map((p) => p.codename))];
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return (
-      <div>
-        Error fetching performances. <button onClick={() => refetch()}>Retry</button>
-      </div>
-    );
-  }
-  if (!Array.isArray(performances) || performances.length === 0) {
-    return <div>No performances available.</div>;
-  }
 
   return (
     <>
@@ -73,7 +57,7 @@ const Home = () => {
       </div>
       <div className="container">
         <Filter categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-        <Content filteredPerformances={filteredPerformances} />
+        <Content performances={performances} selectedCategory={selectedCategory} />
       </div>
     </>
   );
