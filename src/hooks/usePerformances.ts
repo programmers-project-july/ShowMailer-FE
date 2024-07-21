@@ -3,10 +3,9 @@ import { fetchPerformances } from '@/apis/Performances.api';
 
 export interface IPerformancePayload {
   TITLE: string;
-  MAIN_IMG: string;
+  IMAGE: string;
   CODENAME: string;
   DATE: string;
-  PLACE: string;
   [key: string]: any; // 추가 속성들을 허용
 }
 

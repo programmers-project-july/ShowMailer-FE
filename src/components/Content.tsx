@@ -28,7 +28,6 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
     navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
   };
 
-
   return (
     <div className="contentContainer">
       {filteredPerformances.length === 0 ? (
