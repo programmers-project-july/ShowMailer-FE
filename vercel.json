@@ -9,20 +9,8 @@
       "dest": "/index.html"
     },
     {
-      "src": "/events",
-      "dest": "VITE_BACKEND_URI/events"
-    },
-    {
-      "src": "/events/(.*)",
-      "dest": "VITE_BACKEND_URI/events/$1"
-    },
-    {
-      "src": "/likes",
-      "dest": "VITE_BACKEND_URI/likes"
-    },
-    {
-      "src": "/likes/(.*)",
-      "dest": "VITE_BACKEND_URI/likes/$1"
+      "src": "VITE_BACKEND_URI/(.*)",
+      "dest": "VITE_BACKEND_URI"
     }
   ]
 }
