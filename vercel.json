@@ -9,7 +9,7 @@
       "dest": "/index.html"
     },
     {
-      "src": "VITE_BACKEND_URI/(.*)",
+      "src": "/.*",
       "dest": "VITE_BACKEND_URI"
     }
   ]
