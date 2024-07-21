@@ -9,17 +9,22 @@ export const fetchPerformances = async (
   title?: string,
   page: number = 1,
 ): Promise<IPerformancePayload[]> => {
-  const response = await httpClient.get<IPerformancePayload[]>(`/events`, {
-    params: {
-      codename,
-      title,
-      page,
-    },
-  });
-  if (Array.isArray(response.data)) {
-    return response.data;
-  } else {
-    console.error('API 응답 데이터 형식 오류:', response.data);
-    return [];  // 배열이 아닌 경우 빈 배열 반환
+  try {
+    const response = await httpClient.get<IPerformancePayload[]>(`/events`, {
+      params: {
+        codename,
+        title,
+        page,
+      },
+    });
+    if (Array.isArray(response.data)) {
+      return response.data as IPerformancePayload[];
+    } else {
+      console.error('API 응답 데이터 형식 오류: 배열이 아닙니다.', response.data);
+      return [];
+    }
+  } catch (error) {
+    console.error('API 요청 오류:', error);
+    return [];
   }
 };
