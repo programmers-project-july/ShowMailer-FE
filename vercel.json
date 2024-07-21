@@ -1,12 +1,28 @@
 {
-    "version": 2,
-    "routes": [
-      {
-        "handle": "filesystem"
-      },
-      {
-        "src": "/.*",
-        "dest": "/index.html"
-      }
-    ]
-  }
+  "version": 2,
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/events",
+      "dest": "VITE_BACKEND_URI/events"
+    },
+    {
+      "src": "/events/(.*)",
+      "dest": "VITE_BACKEND_URI/events/$1"
+    },
+    {
+      "src": "/likes",
+      "dest": "VITE_BACKEND_URI/likes"
+    },
+    {
+      "src": "/likes/(.*)",
+      "dest": "VITE_BACKEND_URI/likes/$1"
+    }
+  ]
+}
