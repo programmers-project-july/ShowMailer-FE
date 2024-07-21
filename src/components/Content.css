@@ -1,4 +1,4 @@
-.content-container {
+.contentContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 반응형 격자 형태로 설정 */
   gap: 20px; /* 격자 사이 간격 설정 */
