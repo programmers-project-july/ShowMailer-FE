@@ -23,7 +23,7 @@ const Home = () => {
         setCategories(uniqueCategories);
       }
     }
-  }, [performances, categories]); // performances와 categories가 변경될 때만 실행됨
+  }, [performances]); // performances와 categories가 변경될 때만 실행됨
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback((category: string) => {
