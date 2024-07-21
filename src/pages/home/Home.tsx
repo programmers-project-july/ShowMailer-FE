@@ -9,7 +9,7 @@ import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 import axios from 'axios';
 
 const Home = () => {
-  const { performances=[], isLoading, isError, refetch } = usePerformances();
+  const { performances = [], isLoading, isError, refetch } = usePerformances();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
@@ -22,7 +22,7 @@ const Home = () => {
       const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
       setCategories(uniqueCategories);
     }
-  }, []); // performances가 변경될 때만 실행됨
+  }, [isLoading]); // performances가 변경될 때만 실행됨
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback((category: string) => {
