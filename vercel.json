@@ -7,9 +7,7 @@
     {
       "src": "/.*",
       "dest": "/index.html"
-    }
-  ],
-  "rewrites": [
+    },
     {
       "source": "/:path*",
       "destination": "https://demo-be-navy.vercel.app/:path*"
