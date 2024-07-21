@@ -20,9 +20,12 @@ const Home = () => {
   useEffect(() => {
     if (performances && Array.isArray(performances)) {
       const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
-      setCategories(uniqueCategories);
+      // 카테고리가 이미 설정된 경우 업데이트를 방지
+      if (JSON.stringify(uniqueCategories) !== JSON.stringify(categories)) {
+        setCategories(uniqueCategories);
+      }
     }
-  }, [isLoading]); // performances가 변경될 때만 실행됨
+  }, [performances, categories]); // performances가 변경될 때만 실행됨
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback((category: string) => {
