@@ -22,7 +22,7 @@ const Home = () => {
       const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
       setCategories(uniqueCategories);
     }
-  }, [performances]); // performances가 변경될 때만 실행됨
+  }, []); // performances가 변경될 때만 실행됨
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback((category: string) => {

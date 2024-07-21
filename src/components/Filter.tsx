@@ -32,9 +32,11 @@ const Filter: React.FC<FilterProps> = ({ categories, selectedCategory, onCategor
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener('mousedown', handleDocumentClick);
-    return () => document.removeEventListener('mousedown', handleDocumentClick);
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick);
+    };
   }, [handleDocumentClick]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
