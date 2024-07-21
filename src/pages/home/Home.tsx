@@ -17,7 +17,7 @@ const Home = () => {
   // Performances 데이터 업데이트
   useEffect(() => {
     if (performances) {
-      const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
+      const uniqueCategories = ['전체', ...new Set(performances && performances.map((p) => p.codename))];
       // 현재 categories와 uniqueCategories가 다를 때만 상태 업데이트
       if (JSON.stringify(categories) !== JSON.stringify(uniqueCategories)) {
         setCategories(uniqueCategories);
