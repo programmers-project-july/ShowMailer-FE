@@ -10,6 +10,8 @@ import { User } from 'firebase/auth';
 
 const Detail: React.FC = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
+  const { codename, title, date } = useParams<{ codename: string; title: string; date: string }>();
+
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
     setUserInfo(user);
@@ -33,7 +35,7 @@ const Detail: React.FC = () => {
           alt="Poster"
         />
         <div className="eventText">
-          <h2>오페라 갈라</h2>
+          <h2>{title}</h2>
           <div className="heartContainer">
             <AiOutlineHeart className="heartIcon" />
             <span>좋아요 이메일 알림받기</span>

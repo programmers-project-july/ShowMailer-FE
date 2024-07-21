@@ -15,13 +15,16 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
 
   const navigate = useNavigate();
 
+  // console.log(performances);
+
   // 선택된 카테고리로 필터링
   const filteredPerformances =
     selectedCategory === '전체' ? performances : performances.filter((p) => p.codename === selectedCategory);
 
   const handlePerformanceClick = (performance: IPerformancePayload) => {
-    const { CODENAME, TITLE, DATE } = performance;
-    navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
+    const { codename, title, date } = performance;
+    const startDate = date.split('~')[0];
+    navigate(`/detail/${codename}/${title}/${startDate}`);
   };
 
   return (
