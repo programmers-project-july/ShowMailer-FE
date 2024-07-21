@@ -15,7 +15,7 @@ const Detail: React.FC = () => {
     setUserInfo(user);
   };
 
-  const performance = usePerformances();
+  // const performance = usePerformances();
 
   const handleButtonClick = () => {
     // if (performance.ORG_LINK)

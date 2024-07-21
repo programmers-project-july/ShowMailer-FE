@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@/components/Filter.css';
 import { useQuery } from '@tanstack/react-query';
-import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 
 interface FilterProps {
   categories: string[]; // 필터링할 카테고리 목록

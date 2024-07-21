@@ -16,5 +16,10 @@ export const fetchPerformances = async (
       page,
     },
   });
-  return response.data;
+  if (Array.isArray(response.data)) {
+    return response.data;
+  } else {
+    console.error('API 응답 데이터 형식 오류:', response.data);
+    return [];  // 배열이 아닌 경우 빈 배열 반환
+  }
 };

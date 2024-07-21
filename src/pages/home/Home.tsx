@@ -9,7 +9,7 @@ import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 import axios from 'axios';
 
 const Home = () => {
-  const { performances, isLoading, isError, refetch } = usePerformances();
+  const { performances=[], isLoading, isError, refetch } = usePerformances();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
