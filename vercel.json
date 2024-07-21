@@ -9,8 +9,12 @@
       "dest": "/index.html"
     },
     {
-      "src": "/.*",
-      "dest": "VITE_BACKEND_URI"
+      "src": "/(.*)",
+      "dest": "https://demo-be-navy.vercel.app/$1",
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "headers": {
+        "X-Forwarded-Host": "https://dev-alarm-fe.vercel.app/"
+      }
     }
   ]
 }
