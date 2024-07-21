@@ -9,8 +9,8 @@
       "dest": "/index.html"
     },
     {
-      "source": "/:path*",
-      "destination": "https://demo-be-navy.vercel.app/:path*"
+      "src": "/:path*",
+      "dest": "https://demo-be-navy.vercel.app/:path*"
     }
   ]
 }
