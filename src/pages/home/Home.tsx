@@ -23,8 +23,13 @@ const Home = () => {
     isLoading,
     isError,
     error,
-    // refetch,
-  } = usePerformances({ page, codename: selectedCategory || undefined, title: searchTerm || undefined });
+  } = usePerformances({
+    page,
+    codename: selectedCategory.includes('/')
+      ? selectedCategory.slice(0, selectedCategory.indexOf('/'))
+      : selectedCategory || undefined,
+    title: searchTerm || undefined,
+  });
 
   // Performances 데이터 업데이트
   useEffect(() => {
@@ -35,14 +40,6 @@ const Home = () => {
       }
     }
   }, [performances, page]);
-
-  // 검색어에 따라 공연 필터링
-  // useEffect(() => {
-  //   const filtered = allPerformances.filter(
-  //     (performance) => performance.title.toLowerCase().includes(searchTerm.toLowerCase()), // 공연 제목으로 필터링
-  //   );
-  //   setFilteredPerformances(filtered);
-  // }, [searchTerm, allPerformances]);
 
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
