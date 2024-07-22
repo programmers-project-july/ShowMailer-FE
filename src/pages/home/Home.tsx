@@ -10,15 +10,15 @@ import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태 추가
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const [page, setPage] = useState<number>(1);
   const [allPerformances, setAllPerformances] = useState<IPerformancePayload[]>([]);
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
+  // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
-  const { performances = [], isLoading, isError, refetch } = usePerformances(undefined, undefined, page);
+  const { performances = [], isLoading, isError, refetch } = usePerformances({ page, codename: selectedCategory, title: searchTerm });
 
   // Performances 데이터 업데이트
   useEffect(() => {
@@ -27,21 +27,16 @@ const Home = () => {
         setAllPerformances(performances);
         setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
       }
-
-      const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
-      if (JSON.stringify(uniqueCategories) !== JSON.stringify(categories)) {
-        setCategories(uniqueCategories);
-      }
     }
-  }, [performances, categories, page]);
+  }, [performances, page]);
 
   // 검색어에 따라 공연 필터링
-  useEffect(() => {
-    const filtered = allPerformances.filter(
-      (performance) => performance.title.toLowerCase().includes(searchTerm.toLowerCase()), // 공연 제목으로 필터링
-    );
-    setFilteredPerformances(filtered);
-  }, [searchTerm, allPerformances]);
+  // useEffect(() => {
+  //   const filtered = allPerformances.filter(
+  //     (performance) => performance.title.toLowerCase().includes(searchTerm.toLowerCase()), // 공연 제목으로 필터링
+  //   );
+  //   setFilteredPerformances(filtered);
+  // }, [searchTerm, allPerformances]);
 
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
@@ -55,8 +50,9 @@ const Home = () => {
   const handleCategoryChange = useCallback(
     (category: string) => {
       setSelectedCategory(category);
-      setPage(1); // 페이지를 리셋
-      refetch(); // 새로운 카테고리로 데이터 재요청
+      setPage(1); 
+      setAllPerformances([]);
+      refetch(); 
     },
     [refetch],
   );
@@ -65,8 +61,9 @@ const Home = () => {
   const handleSearchChange = useCallback(
     (term: string) => {
       setSearchTerm(term);
-      // setPage(1); // 페이지를 리셋
-      refetch(); // 새로운 검색어로 데이터 재요청
+      setPage(1)
+      setAllPerformances([]);
+      refetch(); 
     },
     [refetch],
   );
@@ -104,7 +101,7 @@ const Home = () => {
           onSearchChange={handleSearchChange}
         />
         <Content
-          performances={filteredPerformances}
+          performances={allPerformances}
           selectedCategory={selectedCategory}
           hasMore={performances.length > 0}
           onloadMore={loadMorePerformances}

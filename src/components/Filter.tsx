@@ -8,7 +8,27 @@ interface FilterProps {
   onSearchChange: (event: string) => void; // 검색어 변경 시 호출되는 함수
 }
 
-const Filter: React.FC<FilterProps> = ({ categories, selectedCategory, onCategoryChange, onSearchChange }) => {
+const categories = [
+  '전체',
+  '국악',
+  '교육/체험',
+  '독주/독창회',
+  '무용',
+  '뮤지컬/오페라',
+  '연극',
+  '영화',
+  '전시/미술',
+  '축제-문화/예술',
+  '축제-시민화합',
+  '축제-자연/경관',
+  '축제-전통/역사',
+  '축제-기타',
+  '콘서트',
+  '클래식',
+  '기타',
+];
+
+const Filter: React.FC<FilterProps> = ({ selectedCategory, onCategoryChange, onSearchChange }) => {
   const [isDropdownView, setDropdownView] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 

@@ -9,7 +9,7 @@ export interface IPerformancePayload {
   [key: string]: any; // 추가 속성들을 허용
 }
 
-export const usePerformances = (codename?: string, title?: string, page: number = 1) => {
+export const usePerformances = ({codename, title, page=1}:{codename?: string, title?: string, page: number}) => {
   const {
     data: performances = [],
     isLoading,
