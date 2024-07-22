@@ -25,9 +25,9 @@ const Home = () => {
     error,
   } = usePerformances({
     page,
-    codename: selectedCategory.includes('/')
-      ? selectedCategory.slice(0, selectedCategory.indexOf('/'))
-      : selectedCategory || undefined,
+    codename: selectedCategory.includes(`/`) 
+    ? selectedCategory.split(`/`)[0] 
+    : selectedCategory || undefined,
     title: searchTerm || undefined,
   });
 
