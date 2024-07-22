@@ -23,7 +23,9 @@ const Home = () => {
     if (performances && Array.isArray(performances)) {
       if (page === 1 && performances.length > 0) {
         setAllPerformances(performances);
+        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
       }
+
       const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
       if (JSON.stringify(uniqueCategories) !== JSON.stringify(categories)) {
         setCategories(uniqueCategories);
@@ -33,12 +35,11 @@ const Home = () => {
 
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
-    if (!isLoading && performances.length > 0 && page >= 1) {
-      setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+    if (!isLoading && performances.length > 0 && page > 1) {
+      setPage((prevPage) => prevPage + 1);
       setAllPerformances((prev) => [...prev, ...performances]);
     }
   }, [isLoading, performances]);
-  console.log(page);
 
   // 카테고리 변경 처리
   const handleCategoryChange = useCallback(

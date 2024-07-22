@@ -24,7 +24,12 @@ const Mypage = () => {
       <Header onUserChange={handleUserChange} />
       <div className="mypageContainer">
         {userInfo && userInfo.displayName ? <h3>{userInfo.displayName} 님이 좋아하신 공연</h3> : <Link to="/" />}
-        <Content performances={performances} selectedCategory={selectedCategory} />
+        {/* <Content
+          performances={allPerformances}
+          selectedCategory={selectedCategory}
+          hasMore={performances.length > 0}
+          onloadMore={loadMorePerformances}
+        /> */}
       </div>
     </>
   );
