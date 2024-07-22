@@ -44,17 +44,17 @@ const Detail: React.FC = () => {
     setUserInfo(user);
   };
 
-
-  // const { performances = [], isLoading, isError, refetch } = usePerformances();
-
   // useEffect()=>{
   //   performances
   // }
 
   const handleButtonClick = () => {
-    // if (performance.ORG_LINK)
-    //   window.open(performance.ORG_LINK, '_blank');
-    alert('홈페이지 이동');
+    const performance = performances[0];
+    if (performance.org_link) {
+      window.open(performance.org_link, '_blank'); // org_link로 새 탭에서 열기
+    } else {
+      alert('공식 링크가 없습니다.');
+    }
   };
 
   // 로딩 및 에러 상태 처리
@@ -70,19 +70,16 @@ const Detail: React.FC = () => {
     <>
       <Header onUserChange={handleUserChange} />
       <div className="detailContainer">
-        <img
-          className="Poster"
-          src={performance.image}
-          alt="Poster"
-        />
+        <img className="Poster" src={performance.image} alt="Poster" />
         <div className="eventText">
-          <h2>{title}</h2>
+          <h2>{performance.title}</h2>
           <div className="heartContainer">
             <AiOutlineHeart className="heartIcon" />
             <span>좋아요 이메일 알림받기</span>
           </div>
           <p>카테고리: {performance.codename}</p>
           <p>기간: {performance.date}</p>
+          <p>장소: {performance.place}</p>
         </div>
       </div>
       <button type="button" className="goPageBtn" onClick={handleButtonClick}>
