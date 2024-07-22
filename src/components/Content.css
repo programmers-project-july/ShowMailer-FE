@@ -57,7 +57,7 @@
   border: none; /* 기본 테두리 제거 */
   transition: background-color 0.3s; /* 배경색 전환 효과 */
   text-align: center;
-
+  position: sticky;
 }
 
 .noMoreData {
