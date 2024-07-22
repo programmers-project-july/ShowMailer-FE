@@ -25,9 +25,7 @@ const Home = () => {
     error,
   } = usePerformances({
     page,
-    codename: selectedCategory.includes(`/`) 
-    ? selectedCategory.split(`/`)[0] 
-    : selectedCategory || undefined,
+    codename: selectedCategory.includes(`/`) ? selectedCategory.split(`/`)[0] : selectedCategory || undefined,
     title: searchTerm || undefined,
   });
 
@@ -36,7 +34,7 @@ const Home = () => {
     if (performances && Array.isArray(performances)) {
       if (page === 1 && performances.length > 0) {
         setAllPerformances(performances);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+        // setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
       }
     }
   }, [performances, page]);
@@ -73,13 +71,25 @@ const Home = () => {
   // 로딩 및 에러 상태 처리
   if (isLoading && allPerformances.length === 0) return <div>로딩 중...</div>;
 
-  if (isError || error)
-    return (
-      <div>
-        데이터를 불러오는 데 문제가 발생했습니다.
-        <p>{error.message}</p>
-      </div>
-    );
+  if (isError) {
+    // 에러 메시지 처리
+    if (error instanceof Error) {
+      return (
+        <div>
+          데이터를 불러오는 데 문제가 발생했습니다.
+          <p>{error.message}</p>
+        </div>
+      );
+    } else {
+      // 다른 형태의 에러인 경우 (예: Axios 에러 500)
+      return <div>일치하는 데이터가 없습니다.</div>;
+    }
+  }
+
+  // 공연 정보가 없을 때 메시지 표시
+  if (performances && performances.length === 0) {
+    return <div>일치하는 데이터가 없습니다.</div>;
+  }
 
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
