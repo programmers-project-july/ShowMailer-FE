@@ -18,7 +18,12 @@ const Home = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
-  const { performances = [], isLoading, isError, refetch } = usePerformances({ page, codename: selectedCategory, title: searchTerm });
+  const {
+    performances = [],
+    isLoading,
+    isError,
+    refetch,
+  } = usePerformances({ page, codename: selectedCategory, title: searchTerm });
 
   // Performances 데이터 업데이트
   useEffect(() => {
@@ -50,9 +55,9 @@ const Home = () => {
   const handleCategoryChange = useCallback(
     (category: string) => {
       setSelectedCategory(category);
-      setPage(1); 
+      setPage(1);
       setAllPerformances([]);
-      refetch(); 
+      refetch();
     },
     [refetch],
   );
@@ -61,9 +66,9 @@ const Home = () => {
   const handleSearchChange = useCallback(
     (term: string) => {
       setSearchTerm(term);
-      setPage(1)
+      setPage(1);
       setAllPerformances([]);
-      refetch(); 
+      refetch();
     },
     [refetch],
   );
