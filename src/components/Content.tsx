@@ -24,7 +24,7 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
     <>
       <div className="contentContainer">
         {performances.length === 0 ? (
-          <div>등록된 공연이 없습니다.</div>
+          <p>로딩중...<br /> 또는 등록된 공연이 없습니다.</p>
         ) : (
           performances.map((performance, index) => (
             <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
@@ -41,7 +41,9 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
           더 보기
         </button>
       ) : (
-        <div className="noMoreData">더 이상 데이터가 없습니다.</div>
+        <div className="loadMoreBtn" style={{ backgroundColor: 'lightgray' }}>
+          더 보기
+        </div>
       )}
     </>
   );

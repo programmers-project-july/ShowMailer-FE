@@ -16,7 +16,6 @@ const Home = () => {
   const [allPerformances, setAllPerformances] = useState<IPerformancePayload[]>([]);
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
   const {
     data: performances,
@@ -32,18 +31,19 @@ const Home = () => {
   // Performances 데이터 업데이트
   useEffect(() => {
     if (performances && Array.isArray(performances)) {
-      if (page === 1 && performances.length > 0) {
+      if (page === 1) {
         setAllPerformances(performances);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+      } else if (performances.length > 0) {
+        setAllPerformances((prev) => [...prev, ...performances]);
       }
     }
-  }, [performances, page]);
+  }, [performances]);
 
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
-    if (!isLoading && performances.length > 0 && page > 1) {
+    if (!isLoading && performances.length > 0) {
       setPage((prevPage) => prevPage + 1);
-      setAllPerformances((prev) => [...prev, ...performances]);
+      // setAllPerformances([]);
     }
   }, [isLoading, performances]);
 
@@ -80,15 +80,7 @@ const Home = () => {
           <p>{error.message}</p>
         </div>
       );
-    } else {
-      // 다른 형태의 에러인 경우 (예: Axios 에러 500)
-      return <div>일치하는 데이터가 없습니다.</div>;
     }
-  }
-
-  // 공연 정보가 없을 때 메시지 표시
-  if (performances && performances.length === 0) {
-    return <div>일치하는 데이터가 없습니다.</div>;
   }
 
   // 사용자 정보를 상위 컴포넌트에서 관리
