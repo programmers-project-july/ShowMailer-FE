@@ -44,6 +44,9 @@ const Detail: React.FC = () => {
     setUserInfo(user);
   };
 
+
+  // const { performances = [], isLoading, isError, refetch } = usePerformances();
+
   // useEffect()=>{
   //   performances
   // }

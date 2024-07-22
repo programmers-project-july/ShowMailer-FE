@@ -10,16 +10,22 @@ export interface IPerformancePayload {
 }
 
 export const usePerformances = ({ codename, title, page = 1 }: { codename?: string; title?: string; page: number }) => {
-  const {
-    data: performances = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery<IPerformancePayload[]>({
-    queryKey: ['performances', codename, title, page],
+
+  const res = useQuery<IPerformancePayload[]>({
+    queryKey: [
+      'performances',
+      {
+        codename,
+        title,
+        page,
+      },
+    ],
     queryFn: () => fetchPerformances(codename, title, page),
     placeholderData: keepPreviousData,
   });
 
-  return { performances, isLoading, isError, refetch };
+  return {
+    ...res,
+    data: res.data || [],
+  };
 };

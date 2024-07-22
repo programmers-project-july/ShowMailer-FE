@@ -23,11 +23,13 @@ export const fetchPerformances = async (
     if (Array.isArray(response.data)) {
       return response.data as IPerformancePayload[];
     } else {
-      console.error('API 응답 데이터 형식 오류: 배열이 아닙니다.', response.data);
-      return [];
+      throw new Error('API 응답 데이터 형식 오류: 배열이 아닙니다', response.data);
+      // console.error('API 응답 데이터 형식 오류: 배열이 아닙니다.', response.data);
+      // return [];
     }
   } catch (error) {
-    console.error('API 요청 오류:', error);
+    throw new Error('API 요청 오류' +error + '');
+    // console.error('API 요청 오류:', error);
     return [];
   }
 };

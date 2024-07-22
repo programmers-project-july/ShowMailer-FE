@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URI;
 
 const DEFAULT_TIMEOUT = 30000;
 

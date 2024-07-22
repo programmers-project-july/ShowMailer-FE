@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { startTransition, useCallback, useEffect, useState } from 'react';
 
 import '@/pages/home//Home.css';
 import Header from '@/components/header/Header';
@@ -8,7 +8,7 @@ import { User } from 'firebase/auth';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [categories, setCategories] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -16,66 +16,74 @@ const Home = () => {
   const [allPerformances, setAllPerformances] = useState<IPerformancePayload[]>([]);
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
   const {
-    performances = [],
+
+    data: performances,
     isLoading,
     isError,
-    refetch,
-  } = usePerformances({ page, codename: selectedCategory, title: searchTerm });
+    error,
+  } = usePerformances({
+    page,
+    codename: selectedCategory.includes(`/`) ? selectedCategory.split(`/`)[0] : selectedCategory || undefined,
+    title: searchTerm || undefined,
+  });
 
   // Performances 데이터 업데이트
   useEffect(() => {
     if (performances && Array.isArray(performances)) {
-      if (page === 1 && performances.length > 0) {
+      if (page === 1) {
         setAllPerformances(performances);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+      } else if (performances.length > 0) {
+        setAllPerformances((prev) => [...prev, ...performances]);
       }
     }
-  }, [performances, page]);
-
-  // 검색어에 따라 공연 필터링
-  // useEffect(() => {
-  //   const filtered = allPerformances.filter(
-  //     (performance) => performance.title.toLowerCase().includes(searchTerm.toLowerCase()), // 공연 제목으로 필터링
-  //   );
-  //   setFilteredPerformances(filtered);
-  // }, [searchTerm, allPerformances]);
+  }, [performances]);
 
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
-    if (!isLoading && performances.length > 0 && page > 1) {
+    if (!isLoading && performances.length > 0) {
       setPage((prevPage) => prevPage + 1);
-      setAllPerformances((prev) => [...prev, ...performances]);
+      // setAllPerformances([]);
     }
   }, [isLoading, performances]);
 
   // 카테고리 변경 핸들러
-  const handleCategoryChange = useCallback(
-    (category: string) => {
-      setSelectedCategory(category);
+
+  const handleCategoryChange = useCallback((category: string) => {
+    startTransition(() => {
+      setSelectedCategory(category === '전체' ? '' : category);
+      setSearchTerm('');
       setPage(1);
       setAllPerformances([]);
-      refetch();
-    },
-    [refetch],
-  );
+    });
+    // refetch();
+  }, []);
 
   // 검색어 변경 핸들러
-  const handleSearchChange = useCallback(
-    (term: string) => {
+  const handleSearchChange = useCallback((term: string) => {
+    startTransition(() => {
       setSearchTerm(term);
       setPage(1);
       setAllPerformances([]);
-      refetch();
-    },
-    [refetch],
-  );
+    });
+    // refetch();
+  }, []);
 
   // 로딩 및 에러 상태 처리
   if (isLoading && allPerformances.length === 0) return <div>로딩 중...</div>;
-  if (isError) return <div>데이터를 불러오는 데 문제가 발생했습니다.</div>;
+
+  if (isError) {
+    // 에러 메시지 처리
+    if (error instanceof Error) {
+      return (
+        <div>
+          데이터를 불러오는 데 문제가 발생했습니다.
+          <p>{error.message}</p>
+        </div>
+      );
+    }
+  }
 
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {

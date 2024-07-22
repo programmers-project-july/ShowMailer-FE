@@ -4,7 +4,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Layout from '@/routes/Layout';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    }
+  }
+});
 
 function App() {
   return (
