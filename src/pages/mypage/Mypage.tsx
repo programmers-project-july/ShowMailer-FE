@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { usePerformances } from '@/hooks/usePerformances';
 
 const Mypage = () => {
-  const { performances=[], isLoading, isError, refetch } = usePerformances();
+  // const { performances=[], isLoading, isError, refetch } = usePerformances();
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
