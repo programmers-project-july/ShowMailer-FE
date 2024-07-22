@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { startTransition, useCallback, useEffect, useState } from 'react';
 
 import '@/pages/home//Home.css';
 import Header from '@/components/header/Header';
@@ -8,7 +8,7 @@ import { User } from 'firebase/auth';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [categories, setCategories] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -18,7 +18,13 @@ const Home = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   // const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
-  const { performances = [], isLoading, isError, refetch } = usePerformances({ page, codename: selectedCategory, title: searchTerm });
+  const {
+    data: performances,
+    isLoading,
+    isError,
+    error,
+    // refetch,
+  } = usePerformances({ page, codename: selectedCategory || undefined, title: searchTerm || undefined });
 
   // Performances 데이터 업데이트
   useEffect(() => {
@@ -47,30 +53,36 @@ const Home = () => {
   }, [isLoading, performances]);
 
   // 카테고리 변경 핸들러
-  const handleCategoryChange = useCallback(
-    (category: string) => {
-      setSelectedCategory(category);
-      setPage(1); 
+  const handleCategoryChange = useCallback((category: string) => {
+    startTransition(() => {
+      setSelectedCategory(category === '전체' ? '' : category);
+      setSearchTerm('');
+      setPage(1);
       setAllPerformances([]);
-      refetch(); 
-    },
-    [refetch],
-  );
+    });
+    // refetch();
+  }, []);
 
   // 검색어 변경 핸들러
-  const handleSearchChange = useCallback(
-    (term: string) => {
+  const handleSearchChange = useCallback((term: string) => {
+    startTransition(() => {
       setSearchTerm(term);
-      setPage(1)
+      setPage(1);
       setAllPerformances([]);
-      refetch(); 
-    },
-    [refetch],
-  );
+    });
+    // refetch();
+  }, []);
 
   // 로딩 및 에러 상태 처리
   if (isLoading && allPerformances.length === 0) return <div>로딩 중...</div>;
-  if (isError) return <div>데이터를 불러오는 데 문제가 발생했습니다.</div>;
+
+  if (isError || error)
+    return (
+      <div>
+        데이터를 불러오는 데 문제가 발생했습니다.
+        <p>{error.message}</p>
+      </div>
+    );
 
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
