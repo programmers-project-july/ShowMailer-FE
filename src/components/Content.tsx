@@ -2,17 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react';
 import '@/components/Content.css';
 import { useNavigate } from 'react-router-dom';
 import { IPerformancePayload } from '@/hooks/usePerformances';
-import axios from 'axios';
 
 interface ContentProps {
   performances: IPerformancePayload[];
   selectedCategory: string;
+  hasMore: boolean;
+  onloadMore: () => void;
 }
 
-export const Content: React.FC<ContentProps> = ({ performances, selectedCategory }) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-
+export const Content: React.FC<ContentProps> = ({ performances, selectedCategory, hasMore, onloadMore }) => {
   const navigate = useNavigate();
 
   // 선택된 카테고리로 필터링
@@ -20,8 +18,10 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
     selectedCategory === '전체' ? performances : performances.filter((p) => p.codename === selectedCategory);
 
   const handlePerformanceClick = (performance: IPerformancePayload) => {
-    const { CODENAME, TITLE, DATE } = performance;
-    navigate(`/detail/${CODENAME}/${TITLE}/${DATE}`);
+    const { codename, title, date } = performance;
+    const viewcodename = codename.split(`/`)[0];
+    const startDate = date.split('~')[0];
+    navigate(`/detail/${viewcodename}/${title}/${startDate}`);
   };
 
   return (
@@ -38,11 +38,13 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
           </div>
         ))
       )}
-      {/* {hasMore && (
-        <button className="loadMoreBtn" onClick={onLoadMore} >
+      {hasMore ? (
+        <button className="loadMoreBtn" onClick={onloadMore}>
           더 보기
         </button>
-      )} */}
+      ) : (
+        <div className="noMoreData">더 이상 데이터가 없습니다.</div>
+      )}
     </div>
   );
 };

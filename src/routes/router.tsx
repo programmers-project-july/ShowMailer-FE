@@ -10,15 +10,15 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '/detail/:id',
+    path: '/detail/:codename/:title/:startDate',
     element: <Detail />,
   },
   {
-    path: '/:userId',
+    path: '/mypage',
     element: <Mypage />,
   },
-  // {
-  //   path: '*', // 모든 경로에 부합하지 않는 경우
-  //   element: <NotFound />,
-  // },
+  {
+    path: '*', // 모든 경로에 부합하지 않는 경우
+    element: <NotFound />,
+  },
 ]);
