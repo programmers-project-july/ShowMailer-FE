@@ -8,6 +8,7 @@ export const fetchPerformances = async (
   codename?: string,
   title?: string,
   page?: number,
+  date?: string,
 ): Promise<IPerformancePayload[]> => {
   try {
     // const processedCodename = codename ? codename.split('/')[0] : undefined;
@@ -16,6 +17,7 @@ export const fetchPerformances = async (
         codename,
         title,
         page,
+        date,
       },
     });
     if (Array.isArray(response.data)) {

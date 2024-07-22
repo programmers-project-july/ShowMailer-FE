@@ -10,6 +10,7 @@ export interface IPerformancePayload {
 }
 
 export const usePerformances = ({ codename, title, page = 1 }: { codename?: string; title?: string; page: number }) => {
+
   const res = useQuery<IPerformancePayload[]>({
     queryKey: [
       'performances',

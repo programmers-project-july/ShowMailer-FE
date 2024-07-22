@@ -18,6 +18,7 @@ const Home = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
 
   const {
+
     data: performances,
     isLoading,
     isError,
@@ -48,6 +49,7 @@ const Home = () => {
   }, [isLoading, performances]);
 
   // 카테고리 변경 핸들러
+
   const handleCategoryChange = useCallback((category: string) => {
     startTransition(() => {
       setSelectedCategory(category === '전체' ? '' : category);
