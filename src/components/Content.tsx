@@ -25,27 +25,29 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
   };
 
   return (
-    <div className="contentContainer">
-      {filteredPerformances.length === 0 ? (
-        <div>등록된 공연이 없습니다.</div>
-      ) : (
-        filteredPerformances.map((performance, index) => (
-          <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
-            <img src={performance.image} alt={performance.title} />
-            <h3>{performance.title}</h3>
-            <p>{performance.codename}</p>
-            <p>{performance.date}</p>
-          </div>
-        ))
-      )}
-      {hasMore ? (
-        <button className="loadMoreBtn" onClick={onloadMore}>
-          더 보기
-        </button>
-      ) : (
-        <div className="noMoreData">더 이상 데이터가 없습니다.</div>
-      )}
-    </div>
+    <>
+      <div className="contentContainer">
+        {filteredPerformances.length === 0 ? (
+          <div>등록된 공연이 없습니다.</div>
+        ) : (
+          filteredPerformances.map((performance, index) => (
+            <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
+              <img src={performance.image} alt={performance.title} />
+              <h3>{performance.title}</h3>
+              <p>{performance.codename}</p>
+              <p>{performance.date}</p>
+            </div>
+          ))
+        )}
+        {hasMore ? (
+          <button className="loadMoreBtn" onClick={onloadMore}>
+            더 보기
+          </button>
+        ) : (
+          <div className="noMoreData">더 이상 데이터가 없습니다.</div>
+        )}
+      </div>
+    </>
   );
 };
 

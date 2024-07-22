@@ -10,11 +10,13 @@ import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>(''); // 검색어 상태 추가
 
   const [page, setPage] = useState<number>(1);
   const [allPerformances, setAllPerformances] = useState<IPerformancePayload[]>([]);
 
   const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [filteredPerformances, setFilteredPerformances] = useState<IPerformancePayload[]>([]);
 
   const { performances = [], isLoading, isError, refetch } = usePerformances(undefined, undefined, page);
 
@@ -33,6 +35,14 @@ const Home = () => {
     }
   }, [performances, categories, page]);
 
+  // 검색어에 따라 공연 필터링
+  useEffect(() => {
+    const filtered = allPerformances.filter(
+      (performance) => performance.title.toLowerCase().includes(searchTerm.toLowerCase()), // 공연 제목으로 필터링
+    );
+    setFilteredPerformances(filtered);
+  }, [searchTerm, allPerformances]);
+
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
     if (!isLoading && performances.length > 0 && page > 1) {
@@ -41,13 +51,22 @@ const Home = () => {
     }
   }, [isLoading, performances]);
 
-  // 카테고리 변경 처리
+  // 카테고리 변경 핸들러
   const handleCategoryChange = useCallback(
     (category: string) => {
       setSelectedCategory(category);
-      setPage(1); // 카테고리 변경 시 페이지를 초기화
-      setAllPerformances(performances);
-      refetch(); // 카테고리 변경 시 데이터 새로고침
+      setPage(1); // 페이지를 리셋
+      refetch(); // 새로운 카테고리로 데이터 재요청
+    },
+    [refetch],
+  );
+
+  // 검색어 변경 핸들러
+  const handleSearchChange = useCallback(
+    (term: string) => {
+      setSearchTerm(term);
+      // setPage(1); // 페이지를 리셋
+      refetch(); // 새로운 검색어로 데이터 재요청
     },
     [refetch],
   );
@@ -78,9 +97,14 @@ const Home = () => {
         한번에 <span className="highlight">Show Mailer</span>로 관리해요!
       </div>
       <div className="container">
-        <Filter categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+        <Filter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+          onSearchChange={handleSearchChange}
+        />
         <Content
-          performances={allPerformances}
+          performances={filteredPerformances}
           selectedCategory={selectedCategory}
           hasMore={performances.length > 0}
           onloadMore={loadMorePerformances}

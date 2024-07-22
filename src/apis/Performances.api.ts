@@ -7,9 +7,10 @@ import { httpClient } from './http';
 export const fetchPerformances = async (
   codename?: string,
   title?: string,
-  page: number = 1,
+  page?: number,
 ): Promise<IPerformancePayload[]> => {
   try {
+    // const processedCodename = codename ? codename.split('/')[0] : undefined;
     const response = await httpClient.get<IPerformancePayload[]>(`/events`, {
       params: {
         codename,
