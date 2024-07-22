@@ -42,7 +42,7 @@ const Home = () => {
   // 페이지네이션 로직을 포함하여 공연 데이터 로드
   const loadMorePerformances = useCallback(() => {
     if (!isLoading && performances.length > 0 && page > 1) {
-      // setPage((prevPage) => prevPage + 1);
+      setPage((prevPage) => prevPage + 1);
       setAllPerformances((prev) => [...prev, ...performances]);
     }
   }, [isLoading, performances]);
