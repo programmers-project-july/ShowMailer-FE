@@ -6,34 +6,53 @@ import Filter from '@/components/Filter';
 import Content from '@/components/Content';
 import { User } from 'firebase/auth';
 import { IPerformancePayload, usePerformances } from '@/hooks/usePerformances';
-import axios from 'axios';
 
 const Home = () => {
-  const { performances = [], isLoading, isError, refetch } = usePerformances();
-
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [categories, setCategories] = useState<string[]>([]);
 
+  const [page, setPage] = useState<number>(1);
+  const [allPerformances, setAllPerformances] = useState<IPerformancePayload[]>([]);
+
   const [userInfo, setUserInfo] = useState<User | null>(null);
+
+  const { performances = [], isLoading, isError, refetch } = usePerformances(undefined, undefined, page);
 
   // Performances 데이터 업데이트
   useEffect(() => {
     if (performances && Array.isArray(performances)) {
+      if (page === 1 && performances.length > 0) {
+        setAllPerformances(performances);
+      }
       const uniqueCategories = ['전체', ...new Set(performances.map((p) => p.codename))];
-      // 카테고리가 이미 설정된 경우 업데이트를 방지
       if (JSON.stringify(uniqueCategories) !== JSON.stringify(categories)) {
         setCategories(uniqueCategories);
       }
     }
-  }, [performances, categories]); // performances가 변경될 때만 실행됨
+  }, [performances, categories, page]);
+
+  // 페이지네이션 로직을 포함하여 공연 데이터 로드
+  const loadMorePerformances = useCallback(() => {
+    if (!isLoading && performances.length > 0 && page >= 1) {
+      setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+      setAllPerformances((prev) => [...prev, ...performances]);
+    }
+  }, [isLoading, performances]);
+  console.log(page);
 
   // 카테고리 변경 처리
-  const handleCategoryChange = useCallback((category: string) => {
-    setSelectedCategory(category);
-  }, []);
+  const handleCategoryChange = useCallback(
+    (category: string) => {
+      setSelectedCategory(category);
+      setPage(1); // 카테고리 변경 시 페이지를 초기화
+      setAllPerformances(performances);
+      refetch(); // 카테고리 변경 시 데이터 새로고침
+    },
+    [refetch],
+  );
 
   // 로딩 및 에러 상태 처리
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading && allPerformances.length === 0) return <div>로딩 중...</div>;
   if (isError) return <div>데이터를 불러오는 데 문제가 발생했습니다.</div>;
 
   // 사용자 정보를 상위 컴포넌트에서 관리
@@ -59,7 +78,12 @@ const Home = () => {
       </div>
       <div className="container">
         <Filter categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-        <Content performances={performances} selectedCategory={selectedCategory} />
+        <Content
+          performances={allPerformances}
+          selectedCategory={selectedCategory}
+          hasMore={performances.length > 0}
+          onloadMore={loadMorePerformances}
+        />
       </div>
     </>
   );

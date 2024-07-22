@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { fetchPerformances } from '@/apis/Performances.api';
 
 export interface IPerformancePayload {
@@ -18,6 +18,7 @@ export const usePerformances = (codename?: string, title?: string, page: number 
   } = useQuery<IPerformancePayload[]>({
     queryKey: ['performances', codename, title, page],
     queryFn: () => fetchPerformances(codename, title, page),
+    placeholderData: keepPreviousData,
   });
 
   return { performances, isLoading, isError, refetch };
