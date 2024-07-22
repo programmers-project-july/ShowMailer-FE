@@ -20,8 +20,7 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
   const handlePerformanceClick = (performance: IPerformancePayload) => {
     const { codename, title, date } = performance;
     const viewcodename = codename.split(`/`)[0];
-    const startDate = date.split('~')[0];
-    navigate(`/detail/${viewcodename}/${title}/${startDate}`);
+    navigate(`/detail/${viewcodename}/${title}/${date}`);
   };
 
   return (
