@@ -39,14 +39,14 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
             </div>
           ))
         )}
-        {hasMore ? (
-          <button className="loadMoreBtn" onClick={onloadMore}>
-            더 보기
-          </button>
-        ) : (
-          <div className="noMoreData">더 이상 데이터가 없습니다.</div>
-        )}
       </div>
+      {hasMore ? (
+        <button className="loadMoreBtn" onClick={onloadMore}>
+          더 보기
+        </button>
+      ) : (
+        <div className="noMoreData">더 이상 데이터가 없습니다.</div>
+      )}
     </>
   );
 };
