@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@/pages/detail/Detail.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -17,7 +17,11 @@ const Detail: React.FC = () => {
     setUserInfo(user);
   };
 
-  // const performance = usePerformances();
+  const { performances = [], isLoading, isError, refetch } = usePerformances();
+
+  // useEffect()=>{
+  //   performances
+  // }
 
   const handleButtonClick = () => {
     // if (performance.ORG_LINK)
@@ -40,8 +44,8 @@ const Detail: React.FC = () => {
             <AiOutlineHeart className="heartIcon" />
             <span>좋아요 이메일 알림받기</span>
           </div>
-          <p>카테고리: </p>
-          <p>기간: </p>
+          <p>카테고리: {codename}</p>
+          <p>기간: {date}</p>
           <p>장소: </p>
           <p>시간: </p>
           <p>이용대상: </p>
