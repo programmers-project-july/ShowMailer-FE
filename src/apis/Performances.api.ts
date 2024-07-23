@@ -2,8 +2,6 @@
 import { IPerformancePayload } from '@/hooks/usePerformances';
 import { httpClient } from './http';
 
-// const API_URL = '/events'; // API 경로는 상대 경로로 설정
-
 export const fetchPerformances = async (
   codename?: string,
   title?: string,
@@ -24,12 +22,9 @@ export const fetchPerformances = async (
       return response.data as IPerformancePayload[];
     } else {
       throw new Error('API 응답 데이터 형식 오류: 배열이 아닙니다', response.data);
-      // console.error('API 응답 데이터 형식 오류: 배열이 아닙니다.', response.data);
-      // return [];
     }
   } catch (error) {
     throw new Error('API 요청 오류' +error + '');
-    // console.error('API 요청 오류:', error);
     return [];
   }
 };
