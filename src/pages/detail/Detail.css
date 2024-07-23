@@ -41,10 +41,8 @@
   align-items: center;
   justify-content: space-evenly;
   font-size: 18px;
-}
-.heartIcon {
-  font-size: 30px;
   color: #eb6b83;
+  font-size: 25px;
 }
 
 .goPageBtn {
