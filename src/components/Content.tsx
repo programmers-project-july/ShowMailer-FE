@@ -5,12 +5,17 @@ import { IPerformancePayload } from '@/hooks/usePerformances';
 
 interface ContentProps {
   performances: IPerformancePayload[];
-  selectedCategory: string;
-  hasMore: boolean;
-  onloadMore: () => void;
+  selectedCategory?: string;
+  hasMore?: boolean;
+  onloadMore?: () => void;
 }
 
-export const Content: React.FC<ContentProps> = ({ performances, selectedCategory, hasMore, onloadMore }) => {
+export const Content: React.FC<ContentProps> = ({
+  performances,
+  selectedCategory,
+  hasMore = false,
+  onloadMore = () => {},
+}) => {
   const navigate = useNavigate();
 
   const handlePerformanceClick = (performance: IPerformancePayload) => {
@@ -23,7 +28,10 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
     <>
       <div className="contentContainer">
         {performances.length === 0 ? (
-          <p>로딩중...<br /> 또는 등록된 공연이 없습니다.</p>
+          <p>
+            로딩중...
+            <br /> 또는 등록된 공연이 없습니다.
+          </p>
         ) : (
           performances.map((performance, index) => (
             <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
@@ -41,7 +49,7 @@ export const Content: React.FC<ContentProps> = ({ performances, selectedCategory
         </button>
       ) : (
         <div className="loadMoreBtn" style={{ backgroundColor: 'lightgray' }}>
-          더 보기
+          더이상 데이터가 없습니다.
         </div>
       )}
     </>
