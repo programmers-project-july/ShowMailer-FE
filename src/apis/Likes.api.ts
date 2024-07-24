@@ -48,10 +48,10 @@ export const removeLike = async ({
 };
 
 // 좋아요 체크
-export const checkLike = async (email?: string, codename?: string, title?: string, date?: string): Promise<boolean> => {
+export const checkLike = async (email?: string, codename?: string, date?: string, title?: string): Promise<boolean> => {
   try {
     const response = await httpClient.get(`/likes/check`, {
-      params: { email, codename, title, date },
+      params: { email, codename, date, title },
     });
     return response.data.liked; // liked 값을 반환
   } catch (error) {

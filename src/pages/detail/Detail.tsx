@@ -21,7 +21,6 @@ export const usePerformances = ({ codename, title, date }: { codename?: string; 
   } = useQuery<IPerformancePayload[]>({
     queryKey: ['performances', codename, title, date],
     queryFn: () => fetchPerformances(codename, title, undefined, date),
-    // placeholderData: keepPreviousData,
   });
   return { performances, isLoading, isError, refetch };
 };
@@ -31,7 +30,6 @@ const Detail: React.FC = () => {
   const [isLiked, setIsLiked] = useState(false);
 
   let { codename, title, date } = useParams<{ codename: string; title: string; date: string }>();
-
 
   const {
     performances = [],
@@ -46,10 +44,14 @@ const Detail: React.FC = () => {
 
   const { addLike, removeLike, checkLike } = useLikes();
   //좋아요 여부
-  const { data: likedData } = checkLike(userInfo?.email || undefined, codename, title, date);
+  const { data: likedData } = checkLike(
+    userInfo?.email || undefined,
+    performances[0]?.codename,
+    performances[0]?.date,
+    performances[0]?.title,
+  );
 
   useEffect(() => {
-    console.log('likeData:', likedData);
     if (likedData) {
       setIsLiked(likedData);
     }
@@ -77,8 +79,8 @@ const Detail: React.FC = () => {
       const payload = {
         email: userInfo.email || undefined,
         codename: performance.codename!,
-        title: performance.title!,
         date: performance.date!,
+        title: performance.title!,
       };
 
       if (isLiked) {
@@ -136,7 +138,6 @@ const Detail: React.FC = () => {
       <button type="button" className="goPageBtn" onClick={handleButtonClick}>
         홈페이지 바로 가기
       </button>
-      {/* {performance.ORG_LINK} */}
     </>
   );
 };
