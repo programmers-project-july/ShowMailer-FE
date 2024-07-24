@@ -11,7 +11,6 @@ import '@/pages/detail/Detail.css';
 import Header from '@/components/header/Header';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useLikes } from '@/hooks/useLikes';
-import { removeLike } from '@/apis/Likes.api';
 
 export const usePerformances = ({ codename, title, date }: { codename?: string; title?: string; date?: string }) => {
   const {
@@ -29,9 +28,10 @@ export const usePerformances = ({ codename, title, date }: { codename?: string; 
 
 const Detail: React.FC = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [isFilled, setIsFilled] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
-  const { codename, title, date } = useParams<{ codename: string; title: string; date: string }>();
+  let { codename, title, date } = useParams<{ codename: string; title: string; date: string }>();
+
 
   const {
     performances = [],
@@ -44,8 +44,16 @@ const Detail: React.FC = () => {
     date,
   });
 
-  //addLikes
-  const { addLike } = useLikes();
+  const { addLike, removeLike, checkLike } = useLikes();
+  //좋아요 여부
+  const { data: likedData } = checkLike(userInfo?.email || undefined, codename, title, date);
+
+  useEffect(() => {
+    console.log('likeData:', likedData);
+    if (likedData) {
+      setIsLiked(likedData);
+    }
+  }, [likedData]);
 
   // 사용자 정보를 상위 컴포넌트에서 관리
   const handleUserChange = (user: User | null) => {
@@ -56,13 +64,14 @@ const Detail: React.FC = () => {
   const handleButtonClick = () => {
     const performance = performances[0];
     if (performance.org_link) {
-      window.open(performance.org_link, '_blank'); // org_link로 새 탭에서 열기
+      window.open(performance.org_link, '_blank');
     } else {
       alert('공식 링크가 없습니다.');
     }
   };
 
   //like
+  //add,remove
   const handleHeartClick = () => {
     if (userInfo) {
       const payload = {
@@ -71,18 +80,17 @@ const Detail: React.FC = () => {
         title: performance.title!,
         date: performance.date!,
       };
-      // console.log(payload);
-      if (isFilled) {
+
+      if (isLiked) {
         removeLike(payload); // 채워진 하트일 경우 removeLike API 호출
-        setIsFilled(false); // 하트 상태를 빈 상태로 변경
+        setIsLiked(false); // 하트 상태를 빈 상태로 변경
         console.log('좋아요 삭제');
-        console.log(payload);
       } else {
         addLike(payload); // 빈 하트일 경우 addLike API 호출
-        setIsFilled(true); // 하트 상태를 채워진 상태로 변경
+        setIsLiked(true); // 하트 상태를 채워진 상태로 변경
         console.log('좋아요 추가');
       }
-      setIsFilled(!isFilled); // 하트 상태 토글
+      setIsLiked(!isLiked); // 하트 상태 토글
     } else {
       toast.error('로그인하고 좋아요를 눌러주세요!');
     }
@@ -105,7 +113,7 @@ const Detail: React.FC = () => {
         <div className="eventText">
           <h2>{performance.title}</h2>
           <div className="heartContainer" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
-            {isFilled ? <AiFillHeart /> : <AiOutlineHeart />}
+            {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
             <span>좋아요 이메일 알림받기</span>
             <ToastContainer
               position="top-center"

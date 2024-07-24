@@ -40,7 +40,7 @@ export const useLikes = () => {
 
   // 좋아요 상태 확인 쿼리
   const checkLikeQuery = (email?: string, codename?: string, title?: string, date?: string) => {
-    return useQuery<boolean, Error>({
+    const res = useQuery<boolean, Error>({
       queryKey: [
         'likes',
         {
@@ -53,11 +53,15 @@ export const useLikes = () => {
       queryFn: () => checkLike(email, codename, title, date),
       enabled: !!email && !!codename && !!title && !!date,
     });
+    return {
+      ...res,
+      data: res.data,
+    };
   };
 
   // 좋아요 조회 쿼리
   const likesQuery = (email?: string) => {
-    return useQuery<IPerformancePayload[], Error, IPerformancePayload[]>({
+    const res= useQuery<IPerformancePayload[], Error, IPerformancePayload[]>({
       queryKey: [
         'likes',
         {
@@ -67,6 +71,10 @@ export const useLikes = () => {
       queryFn: () => Likes(email),
       enabled: !!email,
     });
+    return {
+      ...res,
+      data: res.data,
+    };
   };
 
   return {
