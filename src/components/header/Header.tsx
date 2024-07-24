@@ -38,7 +38,6 @@ const Header = ({ onUserChange }: { onUserChange: (user: User | null) => void })
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        console.log(user);
         saveTokenToCookie();
       })
       .catch((err) => {
@@ -50,7 +49,6 @@ const Header = ({ onUserChange }: { onUserChange: (user: User | null) => void })
     signOut(auth)
       .then(() => {
         setUser(null);
-        console.log('로그아웃 성공');
         navigate('/');
       })
       .catch((error) => {

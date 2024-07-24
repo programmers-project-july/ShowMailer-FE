@@ -62,12 +62,7 @@ export const useLikes = () => {
   // 좋아요 조회 쿼리
   const likesQuery = (email?: string) => {
     const res = useQuery<IPerformancePayload[], Error, IPerformancePayload[]>({
-      queryKey: [
-        'likes',
-        {
-          email,
-        },
-      ],
+      queryKey: ['likes', email],
       queryFn: () => Likes(email),
       enabled: !!email,
     });
