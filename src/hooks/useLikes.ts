@@ -8,6 +8,7 @@ export interface ILikePayload {
   codename?: string;
   title?: string;
   date?: string;
+  image?: string;
 }
 
 // 좋아요 훅

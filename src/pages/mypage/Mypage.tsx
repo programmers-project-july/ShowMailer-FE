@@ -7,7 +7,6 @@ import { User } from 'firebase/auth';
 import Content from '@/components/Content';
 import { Link } from 'react-router-dom';
 import { useLikes } from '@/hooks/useLikes';
-import { IPerformancePayload } from '@/hooks/usePerformances';
 
 const Mypage = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);

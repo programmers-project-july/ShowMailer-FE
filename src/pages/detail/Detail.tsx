@@ -81,10 +81,16 @@ const Detail: React.FC = () => {
         codename: performance.codename!,
         date: performance.date!,
         title: performance.title!,
+        image: performance.image!,
       };
 
       if (isLiked) {
-        removeLike(payload); // 채워진 하트일 경우 removeLike API 호출
+        removeLike({
+          email: userInfo.email || undefined,
+          codename: performance.codename!,
+          date: performance.date!,
+          title: performance.title!,
+        }); // 채워진 하트일 경우 removeLike API 호출
         setIsLiked(false); // 하트 상태를 빈 상태로 변경
         console.log('좋아요 삭제');
       } else {
