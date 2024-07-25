@@ -8,14 +8,16 @@ export const addLike = async ({
   codename,
   title,
   date,
+  image,
 }: {
   email?: string;
   codename?: string;
   title?: string;
   date?: string;
+  image?: string;
 }): Promise<void> => {
   try {
-    await httpClient.post(`/likes/add`, { email, codename, title, date });
+    await httpClient.post(`/likes/add`, { email, codename, title, date, image });
   } catch (error) {
     throw new Error('좋아요 추가 요청 오류: ' + (error instanceof Error ? error.message : '알 수 없는 오류'));
   }
