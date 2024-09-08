@@ -56,5 +56,5 @@ https://dev-alarm-fe.vercel.app/
 ![showMailer_Architecture](https://github.com/user-attachments/assets/c7369dd1-4a7d-4ffa-bafd-eca2a7f38087)
 
 # 소개영상
-https://www.youtube.com/@programmersdevcourse
+https://youtu.be/963pInp-7gs?si=68stQR7fIiGIvHQI
 
