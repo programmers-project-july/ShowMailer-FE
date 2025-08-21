@@ -1,12 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URI;
-
+// export const BACKEND_URL = import.meta.env.VITE_BACKEND_URI;
+const PROXY_URL = '/api';
 const DEFAULT_TIMEOUT = 30000;
 
 export const createClient = (config?: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: BACKEND_URL,
+    baseURL: PROXY_URL,
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'content-type': 'application/json',

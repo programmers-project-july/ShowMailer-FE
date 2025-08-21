@@ -6,7 +6,6 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), vanillaExtractPlugin()],
-  // base:'/dev-alarm/', // 이 부분을 수정
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -14,7 +13,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/events': 'https://demo-be-navy.vercel.app',
+      // '/api'로 시작하는 요청을 백엔드 서버로 전달
+      '/api': {
+        target: 'https://demo-be-navy.vercel.app',
+        changeOrigin: true, // CORS 에러 방지
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
   },
 });
