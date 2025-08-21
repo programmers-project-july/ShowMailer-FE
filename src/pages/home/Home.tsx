@@ -9,14 +9,18 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const { performance, fetchNextPage, hasNextPage, refetch, isLoading, isError, error } = getPerformances({
-    codename: selectedCategory.includes(`/`) ? selectedCategory.split(`/`)[0] : selectedCategory || undefined,
-    title: searchTerm || undefined,
-  });
+  const { performance, fetchNextPage, hasNextPage, refetch, isLoading, isFetchingNextPage, isError, error } =
+    getPerformances({
+      codename: selectedCategory.includes(`/`) ? selectedCategory.split(`/`)[0] : selectedCategory || undefined,
+      title: searchTerm || undefined,
+    });
 
   const target = useIntersect({
     hasNextPage,
     fetchNextPage,
+    options: {
+      rootMargin: '300px',
+    },
   });
 
   // 카테고리 변경 핸들러
@@ -73,7 +77,13 @@ const Home = () => {
           onCategoryChange={handleCategoryChange}
           onSearchChange={handleSearchChange}
         />
-        <Content performances={performance} target={target} hasNextPage={hasNextPage} isLoading={isLoading} />
+        <Content
+          performances={performance}
+          target={target}
+          hasNextPage={hasNextPage}
+          isLoading={isLoading}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </div>
     </>
   );

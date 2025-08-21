@@ -8,9 +8,10 @@ interface ContentProps {
   target?: React.RefObject<HTMLDivElement>;
   hasNextPage?: boolean;
   isLoading?: boolean;
+  isFetchingNextPage?: boolean;
 }
 
-const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, isLoading }) => {
+const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, isLoading, isFetchingNextPage }) => {
   const navigate = useNavigate();
 
   const handlePerformanceClick = (performance: IPerformancePayload) => {
@@ -35,27 +36,35 @@ const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, is
         {performances.length === 0 ? (
           <p>등록된 공연이 없습니다.</p>
         ) : (
-          performances.map((performance, index) => (
-            <div key={index} className="EventItem" onClick={() => handlePerformanceClick(performance)}>
-              {/* lazy loading */}
-              <img src={performance.image} alt={performance.title} />
-              <h3>{performance.title}</h3>
-              <p>{performance.codename}</p>
-              <p>{performance.date}</p>
-            </div>
-          ))
+          performances.map((performance, index) => {
+            const isTriggerElement =
+              hasNextPage && performances.length > 7 && index === Math.floor(performances.length * 0.9);
+            return (
+              <div
+                key={index}
+                className="EventItem"
+                onClick={() => handlePerformanceClick(performance)}
+                ref={isTriggerElement ? target : null}
+              >
+                <img src={performance.image} alt={performance.title} />
+                <h3>{performance.title}</h3>
+                <p>{performance.codename}</p>
+                <p>{performance.date}</p>
+              </div>
+            );
+          })
         )}
       </div>
-      {hasNextPage ? (
-        <div ref={target} className="lds-ellipsis">
+      {isFetchingNextPage && (
+        <div className="lds-ellipsis">
           <div></div>
           <div></div>
           <div></div>
           <div></div>
         </div>
-      ) : (
-        <div className="noMoreData">더이상 데이터가 없습니다.</div>
       )}
+
+      {!hasNextPage && performances.length > 0 && <div className="noMoreData">더이상 데이터가 없습니다.</div>}
     </>
   );
 };
