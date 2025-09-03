@@ -2,12 +2,11 @@
   "version": 2,
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/api/(.*)",
+      "dest": "https://demo-be-navy.vercel.app/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "https://demo-be-navy.vercel.app/$1",
-      "methods": ["GET", "POST", "PUT", "DELETE"]
+      "handle": "filesystem"
     },
     {
       "src": "/.*",
