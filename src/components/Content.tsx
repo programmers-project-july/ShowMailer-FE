@@ -8,9 +8,10 @@ interface ContentProps {
   target?: React.RefObject<HTMLDivElement>;
   hasNextPage?: boolean;
   isLoading?: boolean;
+  isFetchingNextPage?: boolean;
 }
 
-const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, isLoading }) => {
+const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, isLoading, isFetchingNextPage }) => {
   const navigate = useNavigate();
   const [imgLoaded, setImgLoaded] = useState<boolean[]>(new Array(performances.length).fill(false));
 
@@ -80,16 +81,16 @@ const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, is
           })
         )}
       </div>
-      {hasNextPage ? (
-        <div ref={target} className="lds-ellipsis">
+      {isFetchingNextPage && (
+        <div className="lds-ellipsis">
           <div></div>
           <div></div>
           <div></div>
           <div></div>
         </div>
-      ) : (
-        <div className="noMoreData">더이상 데이터가 없습니다.</div>
       )}
+
+      {!hasNextPage && performances.length > 0 && <div className="noMoreData">더이상 데이터가 없습니다.</div>}
     </>
   );
 };

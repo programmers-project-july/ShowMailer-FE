@@ -11,34 +11,37 @@ export interface IPerformancePayload {
 }
 
 export const getPerformances = ({ codename, title }: IPerformancePayload) => {
-  const { data, fetchNextPage, hasNextPage, refetch, isLoading, isError, error } = useInfiniteQuery({
-    queryKey: ['products'],
-    queryFn: ({ pageParam = 1 }) => fetchPerformances(codename, title, pageParam as number),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length === 0) {
-        return undefined;
-      }
-      return allPages.length + 1;
+  const { data, fetchNextPage, hasNextPage, refetch, isLoading, isFetchingNextPage, isError, error } = useInfiniteQuery(
+    {
+      queryKey: ['products'],
+      queryFn: ({ pageParam = 1 }) => fetchPerformances(codename, title, pageParam as number),
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length === 0) {
+          return undefined;
+        }
+        return allPages.length + 1;
+      },
+      initialPageParam: 1,
+      select: (data) => ({
+        pages: data.pages.map((page) =>
+          page.map((item) => ({
+            title: item.title,
+            image: item.image,
+            codename: item.codename,
+            date: item.date,
+          })),
+        ),
+        pageParams: data.pageParams,
+      }),
     },
-    initialPageParam: 1,
-    select: (data) => ({
-      pages: data.pages.map((page) =>
-        page.map((item) => ({
-          title: item.title,
-          image: item.image,
-          codename: item.codename,
-          date: item.date,
-        })),
-      ),
-      pageParams: data.pageParams,
-    }),
-  });
+  );
   return {
     performance: data?.pages.flat() || [],
     fetchNextPage,
     hasNextPage,
     refetch,
     isLoading,
+    isFetchingNextPage,
     isError,
     error,
   };
